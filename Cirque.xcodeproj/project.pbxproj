@@ -1,0 +1,339 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966021EE24BB3009A58AE /* AppDelegate.swift */; };
+		973966051EE24BB3009A58AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966041EE24BB3009A58AE /* ViewController.swift */; };
+		973966081EE24BB3009A58AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 973966061EE24BB3009A58AE /* Main.storyboard */; };
+		9739660A1EE24BB3009A58AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973966091EE24BB3009A58AE /* Assets.xcassets */; };
+		973966161EE24C2E009A58AE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966121EE24C2E009A58AE /* Color.swift */; };
+		973966181EE24C2E009A58AE /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966141EE24C2E009A58AE /* Shape.swift */; };
+		9739661C1EE24D62009A58AE /* CGRect+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661B1EE24D62009A58AE /* CGRect+Extension.swift */; };
+		9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661D1EE24D7C009A58AE /* Int+Extension.swift */; };
+		973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */; };
+		973966221EE26937009A58AE /* CirqueScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966211EE26937009A58AE /* CirqueScene.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		973965FF1EE24BB3009A58AE /* Cirque.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cirque.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		973966021EE24BB3009A58AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		973966041EE24BB3009A58AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		973966071EE24BB3009A58AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		973966091EE24BB3009A58AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9739660B1EE24BB3009A58AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		973966121EE24C2E009A58AE /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		973966141EE24C2E009A58AE /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
+		9739661B1EE24D62009A58AE /* CGRect+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Extension.swift"; sourceTree = "<group>"; };
+		9739661D1EE24D7C009A58AE /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
+		973966211EE26937009A58AE /* CirqueScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CirqueScene.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		973965FC1EE24BB3009A58AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		973965F61EE24BB3009A58AE = {
+			isa = PBXGroup;
+			children = (
+				973966011EE24BB3009A58AE /* Cirque */,
+				973966001EE24BB3009A58AE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		973966001EE24BB3009A58AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				973965FF1EE24BB3009A58AE /* Cirque.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		973966011EE24BB3009A58AE /* Cirque */ = {
+			isa = PBXGroup;
+			children = (
+				9739661A1EE24C66009A58AE /* Misc */,
+				973966021EE24BB3009A58AE /* AppDelegate.swift */,
+				973966061EE24BB3009A58AE /* Main.storyboard */,
+				973966041EE24BB3009A58AE /* ViewController.swift */,
+				973966121EE24C2E009A58AE /* Color.swift */,
+				973966141EE24C2E009A58AE /* Shape.swift */,
+				973966211EE26937009A58AE /* CirqueScene.swift */,
+				973966191EE24C5D009A58AE /* Extensions */,
+			);
+			path = Cirque;
+			sourceTree = "<group>";
+		};
+		973966191EE24C5D009A58AE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9739661D1EE24D7C009A58AE /* Int+Extension.swift */,
+				9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */,
+				9739661B1EE24D62009A58AE /* CGRect+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		9739661A1EE24C66009A58AE /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				973966091EE24BB3009A58AE /* Assets.xcassets */,
+				9739660B1EE24BB3009A58AE /* Info.plist */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		973965FE1EE24BB3009A58AE /* Cirque */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9739660E1EE24BB3009A58AE /* Build configuration list for PBXNativeTarget "Cirque" */;
+			buildPhases = (
+				973965FB1EE24BB3009A58AE /* Sources */,
+				973965FC1EE24BB3009A58AE /* Frameworks */,
+				973965FD1EE24BB3009A58AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Cirque;
+			productName = Cirque;
+			productReference = 973965FF1EE24BB3009A58AE /* Cirque.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		973965F71EE24BB3009A58AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Aaron Williamson";
+				TargetAttributes = {
+					973965FE1EE24BB3009A58AE = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5GJ9V4N76W;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 973965FA1EE24BB3009A58AE /* Build configuration list for PBXProject "Cirque" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 973965F61EE24BB3009A58AE;
+			productRefGroup = 973966001EE24BB3009A58AE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				973965FE1EE24BB3009A58AE /* Cirque */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		973965FD1EE24BB3009A58AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9739660A1EE24BB3009A58AE /* Assets.xcassets in Resources */,
+				973966081EE24BB3009A58AE /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		973965FB1EE24BB3009A58AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				973966181EE24C2E009A58AE /* Shape.swift in Sources */,
+				9739661C1EE24D62009A58AE /* CGRect+Extension.swift in Sources */,
+				973966051EE24BB3009A58AE /* ViewController.swift in Sources */,
+				9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */,
+				973966161EE24C2E009A58AE /* Color.swift in Sources */,
+				973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */,
+				973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */,
+				973966221EE26937009A58AE /* CirqueScene.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		973966061EE24BB3009A58AE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				973966071EE24BB3009A58AE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9739660C1EE24BB3009A58AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = appletvos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		9739660D1EE24BB3009A58AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9739660F1EE24BB3009A58AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 5GJ9V4N76W;
+				INFOPLIST_FILE = Cirque/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaronwilliamson.Cirque;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		973966101EE24BB3009A58AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 5GJ9V4N76W;
+				INFOPLIST_FILE = Cirque/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaronwilliamson.Cirque;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		973965FA1EE24BB3009A58AE /* Build configuration list for PBXProject "Cirque" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9739660C1EE24BB3009A58AE /* Debug */,
+				9739660D1EE24BB3009A58AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9739660E1EE24BB3009A58AE /* Build configuration list for PBXNativeTarget "Cirque" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9739660F1EE24BB3009A58AE /* Debug */,
+				973966101EE24BB3009A58AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 973965F71EE24BB3009A58AE /* Project object */;
+}

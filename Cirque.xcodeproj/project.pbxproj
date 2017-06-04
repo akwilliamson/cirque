@@ -12,11 +12,13 @@
 		973966081EE24BB3009A58AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 973966061EE24BB3009A58AE /* Main.storyboard */; };
 		9739660A1EE24BB3009A58AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973966091EE24BB3009A58AE /* Assets.xcassets */; };
 		973966161EE24C2E009A58AE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966121EE24C2E009A58AE /* Color.swift */; };
-		973966181EE24C2E009A58AE /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966141EE24C2E009A58AE /* Shape.swift */; };
 		9739661C1EE24D62009A58AE /* CGRect+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661B1EE24D62009A58AE /* CGRect+Extension.swift */; };
 		9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661D1EE24D7C009A58AE /* Int+Extension.swift */; };
 		973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */; };
-		973966221EE26937009A58AE /* CirqueScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966211EE26937009A58AE /* CirqueScene.swift */; };
+		973966221EE26937009A58AE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966211EE26937009A58AE /* GameScene.swift */; };
+		978AB5E71EE3C06300BCFA6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E61EE3C06300BCFA6B /* Space.swift */; };
+		978AB5E91EE3C08500BCFA6B /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E81EE3C08500BCFA6B /* Shape.swift */; };
+		978AB5EB1EE3C0A900BCFA6B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5EA1EE3C0A900BCFA6B /* Board.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +29,13 @@
 		973966091EE24BB3009A58AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9739660B1EE24BB3009A58AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		973966121EE24C2E009A58AE /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		973966141EE24C2E009A58AE /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		9739661B1EE24D62009A58AE /* CGRect+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Extension.swift"; sourceTree = "<group>"; };
 		9739661D1EE24D7C009A58AE /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
-		973966211EE26937009A58AE /* CirqueScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CirqueScene.swift; sourceTree = "<group>"; };
+		973966211EE26937009A58AE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		978AB5E61EE3C06300BCFA6B /* Space.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		978AB5E81EE3C08500BCFA6B /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
+		978AB5EA1EE3C0A900BCFA6B /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,9 +72,11 @@
 				973966021EE24BB3009A58AE /* AppDelegate.swift */,
 				973966061EE24BB3009A58AE /* Main.storyboard */,
 				973966041EE24BB3009A58AE /* ViewController.swift */,
+				973966211EE26937009A58AE /* GameScene.swift */,
+				978AB5EA1EE3C0A900BCFA6B /* Board.swift */,
+				978AB5E61EE3C06300BCFA6B /* Space.swift */,
+				978AB5E81EE3C08500BCFA6B /* Shape.swift */,
 				973966121EE24C2E009A58AE /* Color.swift */,
-				973966141EE24C2E009A58AE /* Shape.swift */,
-				973966211EE26937009A58AE /* CirqueScene.swift */,
 				973966191EE24C5D009A58AE /* Extensions */,
 			);
 			path = Cirque;
@@ -167,14 +173,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				973966181EE24C2E009A58AE /* Shape.swift in Sources */,
 				9739661C1EE24D62009A58AE /* CGRect+Extension.swift in Sources */,
 				973966051EE24BB3009A58AE /* ViewController.swift in Sources */,
+				978AB5EB1EE3C0A900BCFA6B /* Board.swift in Sources */,
+				978AB5E71EE3C06300BCFA6B /* Space.swift in Sources */,
 				9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */,
+				978AB5E91EE3C08500BCFA6B /* Shape.swift in Sources */,
 				973966161EE24C2E009A58AE /* Color.swift in Sources */,
 				973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */,
 				973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */,
-				973966221EE26937009A58AE /* CirqueScene.swift in Sources */,
+				973966221EE26937009A58AE /* GameScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +340,7 @@
 				973966101EE24BB3009A58AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -10,5 +10,12 @@ import CoreGraphics
 
 extension CGRect {
     
-    var minLength: CGFloat { return min(width, height) }
+    var center: CGPoint {
+        return CGPoint(x: midX, y: midY)
+    }
+    
+    // Based on the shortest length of the frame
+    func radius(_ percentage: CGFloat) -> CGFloat {
+        return min(width, height) * percentage
+    }
 }

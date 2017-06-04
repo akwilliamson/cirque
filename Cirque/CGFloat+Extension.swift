@@ -10,8 +10,12 @@ import CoreGraphics
 
 extension CGFloat {
     
-    static var tau: CGFloat { return .pi * 2.0 }
+    static var tau: CGFloat {
+        return .pi * 2.0
+    }
     
-    var int: Int { return Int(self) }
+    var int: Int {
+        return Int(self)
+    }
 }
 

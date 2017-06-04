@@ -10,5 +10,7 @@ import CoreGraphics
 
 extension Int {
     
-    var cg: CGFloat { return CGFloat(self) }
+    var cg: CGFloat {
+        return CGFloat(self)
+    }
 }

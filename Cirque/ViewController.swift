@@ -13,13 +13,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let skView = view as! SKView
         skView.ignoresSiblingOrder = true
         
-        let cirqueScene = CirqueScene(size: skView.frame.size)
-        cirqueScene.scaleMode = .aspectFill
+        let board = Board(container: skView.frame, groups: 8, groupMargin: 0.02, rings: 5, ringMargin: 3)
+        let gameScene = GameScene(size: skView.frame.size, board: board)
         
-        skView.presentScene(cirqueScene)
+        skView.presentScene(gameScene)
     }
 }
-

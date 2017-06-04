@@ -1,29 +1,39 @@
+//
+//  Shape.swift
+//  Cirque
+//
+//  Created by Aaron Williamson on 6/3/17.
+//  Copyright © 2017 Aaron Williamson. All rights reserved.
+//
+
 import UIKit
 
 struct Shape {
     
-    let center:    CGPoint
-    let width:     CGFloat
-    let length:    CGFloat
-    var radiusOut: CGFloat { didSet { self.radiusIn = radiusOut - width } }
-    var radiusIn:  CGFloat
-    var start:     CGFloat { didSet { self.end = start + length } }
-    var end:       CGFloat
+    // Constant for every generate shape of space
+    let center:      CGPoint
+    let width:       CGFloat
+    let length:      CGFloat
+    // Changes for every generated shape of space
+    var startRadius: CGFloat { didSet { endRadius = startRadius - width } } // Outward radius
+    var endRadius:   CGFloat                                                // Inward radius
+    var startAngle:  CGFloat { didSet { endAngle = startAngle + length } }
+    var endAngle:    CGFloat
     
-    init(center: CGPoint, width: CGFloat, length: CGFloat, start: CGFloat = 0.0, radius: CGFloat) {
-        self.center    = center
-        self.width     = width
-        self.length    = length
-        self.start     = start
-        self.radiusOut = radius
-        self.radiusIn  = radius - width
-        self.end       = start + length
+    init(center: CGPoint, length: CGFloat, width: CGFloat, startAngle: CGFloat = 0.0, startRadius: CGFloat) {
+        self.center      = center
+        self.length      = length
+        self.width       = width
+        self.startAngle  = startAngle
+        self.startRadius = startRadius
+        self.endRadius   = startRadius - width
+        self.endAngle    = startAngle + length
     }
     
     var path: CGPath {
         
-        let path = UIBezierPath(arcCenter: center, radius: radiusOut, startAngle: start, endAngle: end, clockwise: true)
-                   path.addArc(withCenter: center, radius: radiusIn, startAngle: end, endAngle: start, clockwise: false)
+        let path = UIBezierPath(arcCenter: center, radius: startRadius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        path.addArc(withCenter: center, radius: endRadius, startAngle: endAngle, endAngle: startAngle, clockwise: false)
         
         return path.cgPath
     }

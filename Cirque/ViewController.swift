@@ -11,6 +11,15 @@ import SpriteKit
 
 class ViewController: UIViewController {
     
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+        if let gameScene = gameScene {
+            return [gameScene]
+        }
+        return []
+    }
+    
+    var gameScene: SKScene?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,7 +27,7 @@ class ViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         let board = Board(container: skView.frame, groups: 8, groupMargin: 0.02, rings: 5, ringMargin: 3)
-        let gameScene = GameScene(size: skView.frame.size, board: board)
+        gameScene = GameScene(size: skView.frame.size, board: board)
         
         skView.presentScene(gameScene)
     }

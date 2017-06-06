@@ -18,7 +18,7 @@ class Board: SKNode {
     let groupMargin: CGFloat
     let rings: CGFloat
     let ringMargin: CGFloat
-    let circumference: CGFloat
+    var circumference: CGFloat
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -27,7 +27,7 @@ class Board: SKNode {
     init(container: CGRect, groups: CGFloat, groupMargin: CGFloat, rings: CGFloat, ringMargin: CGFloat) {
         self.container     = container
         self.center        = container.center
-        self.radius        = container.radius(0.4) // arbitrary value
+        self.radius        = container.radius(0.4) // percentage of superview's smallest side length
         self.groups        = groups
         self.groupMargin   = groupMargin // in percentage
         self.rings         = rings
@@ -44,13 +44,32 @@ class Board: SKNode {
         return radius / rings - ringMargin // Constant for all spaces (percentage-based)
     }
     
+    override var preferredFocusEnvironments: [UIFocusEnvironment] {
+        return children
+    }
+    
+    override var canBecomeFocused: Bool {
+        return true
+    }
+    
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        if let space = context.nextFocusedItem as? SKShapeNode {
+            space.alpha = 0.7
+        }
+        if let space = context.previouslyFocusedItem as? SKShapeNode {
+            space.alpha = 1
+        }
+    }
+    
     func generateSpaces() {
         
         var shape = Shape(center: center, length: lengthForSpace, width: widthForSpace, startRadius: radius)
         
         for i in 1...rings.int {
             for j in 1...groups.int {
-                addChild(Space(path: shape.path, colorIndex: j))
+                let space = Space(path: shape.path, colorIndex: j)
+                space.isUserInteractionEnabled = true
+                addChild(space)
                 shape.startAngle = incrementStartAngleFor(j.cg)
             }
             shape.startRadius = incrementStartRadiusFor(i.cg)

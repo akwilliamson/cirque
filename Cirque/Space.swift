@@ -11,6 +11,10 @@ import SpriteKit
 
 class Space: SKShapeNode {
     
+    override var canBecomeFocused: Bool {
+        return true
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -22,6 +26,10 @@ class Space: SKShapeNode {
     
     convenience init(path: CGPath, colorIndex: Int) {
         self.init(path: path)
-        fillColor = colorIndex < 8 ? Color(rawValue: colorIndex)!.color : UIColor.gray
+        
+        
+        let hue: CGFloat = CGFloat(colorIndex)/8.0
+        fillColor = UIColor(hue: hue, saturation: 0.4, brightness: 1.0, alpha: 1.0)
+        //fillColor = colorIndex < 8 ? Color(rawValue: colorIndex)!.color : UIColor.gray
     }
 }

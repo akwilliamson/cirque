@@ -6,7 +6,7 @@
 //  Copyright © 2017 Aaron Williamson. All rights reserved.
 //
 
-import CoreGraphics
+import UIKit
 import SpriteKit
 
 class Board: SKNode {
@@ -32,8 +32,18 @@ class Board: SKNode {
         self.groupMargin   = groupMargin // in percentage
         self.rings         = rings
         self.ringMargin    = ringMargin // in points
-        self.circumference = .tau - (groups * groupMargin) // Circle minus sum of all margin space
+        self.circumference = .tau // Circle minus sum of all margin space
         super.init()
+    }
+    
+    /** DONT YOU DARE LOOK AT THIS **/
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        guard let touch = touches.first else { return }
+        children.forEach {
+            guard let space = $0 as? Space else { return }
+            space.fillColor = space.contains(touch.location(in: self)) ? .gray : space.color
+        }
     }
     
     var lengthForSpace: CGFloat {
@@ -44,40 +54,21 @@ class Board: SKNode {
         return radius / rings - ringMargin // Constant for all spaces (percentage-based)
     }
     
-    override var preferredFocusEnvironments: [UIFocusEnvironment] {
-        return children
-    }
-    
-    override var canBecomeFocused: Bool {
-        return true
-    }
-    
-    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        if let space = context.nextFocusedItem as? SKShapeNode {
-            space.alpha = 0.7
-        }
-        if let space = context.previouslyFocusedItem as? SKShapeNode {
-            space.alpha = 1
-        }
-    }
-    
     func generateSpaces() {
         
         var shape = Shape(center: center, length: lengthForSpace, width: widthForSpace, startRadius: radius)
         
-        for i in 1...rings.int {
-            for j in 1...groups.int {
-                let space = Space(path: shape.path, colorIndex: j)
-                space.isUserInteractionEnabled = true
-                addChild(space)
-                shape.startAngle = incrementStartAngleFor(j.cg)
+        for ring in 1...rings.int {
+            for group in 1...groups.int {
+                addChild(Space(path: shape.path, ring: ring, group: group))
+                shape.startAngle = incrementStartAngleFor(group.cg)
             }
-            shape.startRadius = incrementStartRadiusFor(i.cg)
+            shape.startRadius = incrementStartRadiusFor(ring.cg)
         }
     }
     
     private func incrementStartAngleFor(_ groupNum: CGFloat) -> CGFloat {
-        return circumference * (groupNum / groups) + (groupNum * groupMargin)
+        return circumference * (groupNum / groups)
     }
     
     private func incrementStartRadiusFor(_ ringNum: CGFloat) -> CGFloat {

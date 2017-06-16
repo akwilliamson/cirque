@@ -11,9 +11,9 @@ import SpriteKit
 
 class Space: SKShapeNode {
     
-    override var canBecomeFocused: Bool {
-        return true
-    }
+    var ring: Int = 0
+    var group: Int = 0
+    var color: UIColor = .white { didSet { fillColor = color } }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -22,14 +22,14 @@ class Space: SKShapeNode {
     init(path: CGPath) {
         super.init()
         self.path = path
+        self.isUserInteractionEnabled = true
     }
     
-    convenience init(path: CGPath, colorIndex: Int) {
+    convenience init(path: CGPath, ring: Int, group: Int) {
         self.init(path: path)
-        
-        
-        let hue: CGFloat = CGFloat(colorIndex)/8.0
-        fillColor = UIColor(hue: hue, saturation: 0.4, brightness: 1.0, alpha: 1.0)
-        //fillColor = colorIndex < 8 ? Color(rawValue: colorIndex)!.color : UIColor.gray
+        self.ring = ring
+        self.group = group
+        self.color = UIColor(hue: CGFloat(group)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
+        fillColor = self.color
     }
 }

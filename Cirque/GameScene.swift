@@ -11,14 +11,6 @@ import SpriteKit
 class GameScene: SKScene {
     
     var board: Board
-    
-    override var preferredFocusEnvironments: [UIFocusEnvironment] {
-        return [board]
-    }
-    
-    override var canBecomeFocused: Bool {
-        return true
-    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

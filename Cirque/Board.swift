@@ -13,13 +13,13 @@ protocol RadialMenu {
     func select(atAngle angle: CGFloat, percentOfRadius: CGFloat)
 }
 
-class Board: SKNode {
+class GameBoard: SKNode {
     
     let container: CGRect
     let center: CGPoint
     let radius: CGFloat
-    let groups: CGFloat
-    let rings: CGFloat
+    let groups: Int
+    let rings: Int
     var circumference: CGFloat
     
     // The spacing between each concentric ring. An arbitrary value
@@ -37,7 +37,7 @@ class Board: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(container: CGRect, groups: CGFloat, rings: CGFloat) {
+    init(container: CGRect, groups: Int, rings: Int) {
         self.container     = container
         self.center        = container.center
         self.radius        = container.radius(0.4) // percentage of superview's smallest side length
@@ -48,21 +48,21 @@ class Board: SKNode {
     }
     
     var lengthForSpace: CGFloat {
-        return circumference/groups
+        return circumference/groups.cg
     }
     
     var widthForSpace: CGFloat {
-        return radius/rings - ringMargin
+        return radius/rings.cg - ringMargin
     }
     
     func generateSpaces() {
         
         var shaper = Shaper(center: center, length: lengthForSpace, width: widthForSpace, startRadius: radius)
         
-        for ringNum in 1...rings.int {
+        for ringNum in 1...rings {
             gameSpaces.append(Array())
             let ringIndex = ringNum - 1
-            for groupNum in 1...groups.int {
+            for groupNum in 1...groups {
                 let groupIndex = groupNum - 1
                 if groupMapping[groupIndex] == nil {
                     groupMapping[groupIndex] = (shaper.startAngle...shaper.endAngle)
@@ -78,17 +78,17 @@ class Board: SKNode {
     }
     
     private func incrementStartAngleFor(_ groupNum: CGFloat) -> CGFloat {
-        return groupNum/groups * circumference // 1/X % of circumference
+        return groupNum/groups.cg * circumference // 1/X % of circumference
     }
     
     private func incrementStartRadiusFor(_ ringNum: CGFloat) -> CGFloat {
-        let percentageOfRadiusForRing = 1 - ringNum/rings
-        let percentageOfShrinkForRing = openCenterPercentageOfRadius * ringNum/rings
+        let percentageOfRadiusForRing = 1 - ringNum/rings.cg
+        let percentageOfShrinkForRing = openCenterPercentageOfRadius * ringNum/rings.cg
         return radius * (percentageOfRadiusForRing + percentageOfShrinkForRing)
     }
 }
 
-extension Board: RadialMenu {
+extension GameBoard: RadialMenu {
     
     func select(atAngle angle: CGFloat, percentOfRadius: CGFloat) {
         // Counter-clockwise in the top half of the circle, the angle goes from 0 -> π

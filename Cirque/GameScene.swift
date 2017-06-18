@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    var board: Board
+    var gameBoard: GameBoard
     
     var touchStart: CGPoint?
 
@@ -18,14 +18,14 @@ class GameScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(size: CGSize, board: Board) {
-        self.board = board
+    init(size: CGSize, gameBoard: GameBoard) {
+        self.gameBoard = gameBoard
         super.init(size: size)
     }
     
     override func didMove(to view: SKView) {
-        board.generateSpaces()
-        addChild(board)
+        gameBoard.generateSpaces()
+        addChild(gameBoard)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -48,7 +48,7 @@ class GameScene: SKScene {
         let percentTraveled = min(distanceBetweenTouches/600.0, 1.0)
     
         let radians = atan2(diffY, diffX)
-        board.select(atAngle: radians, percentOfRadius: percentTraveled)
+        gameBoard.select(atAngle: radians, percentOfRadius: percentTraveled)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

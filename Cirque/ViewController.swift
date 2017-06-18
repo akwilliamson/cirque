@@ -16,12 +16,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let board = Board(container: view.frame, groups: 8, rings: 5)
-        gameScene = GameScene(size: view.frame.size, board: board)
+        createGame(numberOfGroups: 8, numberOfRings: 5)
         
         if let skView = view as? SKView {
             skView.ignoresSiblingOrder = true
             skView.presentScene(gameScene)
         }
+    }
+    
+    private func createGame(numberOfGroups: Int, numberOfRings: Int) {
+        let gameBoard = GameBoard(container: view.frame, groups: numberOfGroups, rings: numberOfRings)
+        gameScene = GameScene(size: view.frame.size, gameBoard: gameBoard)
     }
 }

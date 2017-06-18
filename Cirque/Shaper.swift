@@ -1,5 +1,5 @@
 //
-//  Shape.swift
+//  Shaper.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 6/3/17.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-struct Shape {
+struct Shaper {
     
-    // Constant for every generate shape of space
+    // Constant for every generated space shape
     let center:      CGPoint
     let width:       CGFloat
     let length:      CGFloat
-    // Changes for every generated shape of space
+    // Changes for every generated space shape
     var startRadius: CGFloat { didSet { endRadius = startRadius - width } } // Outward radius
     var endRadius:   CGFloat                                                // Inward radius
     var startAngle:  CGFloat { didSet { endAngle = startAngle + length } }
@@ -31,7 +31,6 @@ struct Shape {
     }
     
     var path: CGPath {
-        
         let path = UIBezierPath(arcCenter: center, radius: startRadius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         path.addArc(withCenter: center, radius: endRadius, startAngle: endAngle, endAngle: startAngle, clockwise: false)
         

@@ -11,24 +11,17 @@ import SpriteKit
 
 class ViewController: UIViewController {
     
-    override var preferredFocusEnvironments: [UIFocusEnvironment] {
-        if let gameScene = gameScene {
-            return [gameScene]
-        }
-        return []
-    }
-    
     var gameScene: SKScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let skView = view as! SKView
-        skView.ignoresSiblingOrder = true
+        let board = Board(container: view.frame, groups: 8, rings: 5)
+        gameScene = GameScene(size: view.frame.size, board: board)
         
-        let board = Board(container: skView.frame, groups: 8, groupMargin: 0.02, rings: 5, ringMargin: 3)
-        gameScene = GameScene(size: skView.frame.size, board: board)
-        
-        skView.presentScene(gameScene)
+        if let skView = view as? SKView {
+            skView.ignoresSiblingOrder = true
+            skView.presentScene(gameScene)
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Space.swift
+//  GameSpace.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 6/3/17.
@@ -9,10 +9,10 @@
 import CoreGraphics
 import SpriteKit
 
-class Space: SKShapeNode {
+class GameSpace: SKShapeNode {
     
-    var ring: Int = 0
-    var group: Int = 0
+    var ringNum: Int = 0
+    var groupNum: Int = 0
     var color: UIColor = .white { didSet { fillColor = color } }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,11 +25,11 @@ class Space: SKShapeNode {
         self.isUserInteractionEnabled = true
     }
     
-    convenience init(path: CGPath, ring: Int, group: Int) {
+    convenience init(path: CGPath, ringNum: Int, groupNum: Int) {
         self.init(path: path)
-        self.ring = ring
-        self.group = group
-        self.color = UIColor(hue: CGFloat(group)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
+        self.ringNum = ringNum
+        self.groupNum = groupNum
+        self.color = UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
         fillColor = self.color
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9709D2B31F1881B80077F774 /* SpaceOwning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709D2B21F1881B80077F774 /* SpaceOwning.swift */; };
 		973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966021EE24BB3009A58AE /* AppDelegate.swift */; };
 		973966051EE24BB3009A58AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966041EE24BB3009A58AE /* ViewController.swift */; };
 		973966081EE24BB3009A58AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 973966061EE24BB3009A58AE /* Main.storyboard */; };
@@ -16,12 +17,17 @@
 		973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */; };
 		973966221EE26937009A58AE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966211EE26937009A58AE /* GameScene.swift */; };
 		978AB5E71EE3C06300BCFA6B /* GameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E61EE3C06300BCFA6B /* GameSpace.swift */; };
-		978AB5E91EE3C08500BCFA6B /* Shaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E81EE3C08500BCFA6B /* Shaper.swift */; };
-		978AB5EB1EE3C0A900BCFA6B /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5EA1EE3C0A900BCFA6B /* Board.swift */; };
+		978AB5E91EE3C08500BCFA6B /* GameSpaceShaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E81EE3C08500BCFA6B /* GameSpaceShaper.swift */; };
+		978AB5EB1EE3C0A900BCFA6B /* GameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5EA1EE3C0A900BCFA6B /* GameBoard.swift */; };
 		97AAD21F1EF7059400447956 /* Dictionary+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD21E1EF7059400447956 /* Dictionary+Filter.swift */; };
+		97AAD2211EF7414700447956 /* GamePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2201EF7414700447956 /* GamePlayer.swift */; };
+		97AAD2251EF7BFB300447956 /* PointConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2241EF7BFB300447956 /* PointConverting.swift */; };
+		97AAD2271EF7C02D00447956 /* GameSpaceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2261EF7C02D00447956 /* GameSpaceState.swift */; };
+		97AAD2291EF7C1BF00447956 /* Highlighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2281EF7C1BF00447956 /* Highlighting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9709D2B21F1881B80077F774 /* SpaceOwning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceOwning.swift; sourceTree = "<group>"; };
 		973965FF1EE24BB3009A58AE /* Cirque.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cirque.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		973966021EE24BB3009A58AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		973966041EE24BB3009A58AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,9 +39,13 @@
 		9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		973966211EE26937009A58AE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		978AB5E61EE3C06300BCFA6B /* GameSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSpace.swift; sourceTree = "<group>"; };
-		978AB5E81EE3C08500BCFA6B /* Shaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shaper.swift; sourceTree = "<group>"; };
-		978AB5EA1EE3C0A900BCFA6B /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		978AB5E81EE3C08500BCFA6B /* GameSpaceShaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSpaceShaper.swift; sourceTree = "<group>"; };
+		978AB5EA1EE3C0A900BCFA6B /* GameBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
 		97AAD21E1EF7059400447956 /* Dictionary+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Filter.swift"; sourceTree = "<group>"; };
+		97AAD2201EF7414700447956 /* GamePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayer.swift; sourceTree = "<group>"; };
+		97AAD2241EF7BFB300447956 /* PointConverting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointConverting.swift; sourceTree = "<group>"; };
+		97AAD2261EF7C02D00447956 /* GameSpaceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSpaceState.swift; sourceTree = "<group>"; };
+		97AAD2281EF7C1BF00447956 /* Highlighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlighting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9709D2AB1F15E2E80077F774 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				97AAD2241EF7BFB300447956 /* PointConverting.swift */,
+				97AAD2281EF7C1BF00447956 /* Highlighting.swift */,
+				9709D2B21F1881B80077F774 /* SpaceOwning.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		973965F61EE24BB3009A58AE = {
 			isa = PBXGroup;
 			children = (
@@ -68,15 +88,18 @@
 		973966011EE24BB3009A58AE /* Cirque */ = {
 			isa = PBXGroup;
 			children = (
+				973966191EE24C5D009A58AE /* Extensions */,
 				9739661A1EE24C66009A58AE /* Misc */,
 				973966021EE24BB3009A58AE /* AppDelegate.swift */,
 				973966061EE24BB3009A58AE /* Main.storyboard */,
 				973966041EE24BB3009A58AE /* ViewController.swift */,
 				973966211EE26937009A58AE /* GameScene.swift */,
-				978AB5EA1EE3C0A900BCFA6B /* Board.swift */,
+				978AB5EA1EE3C0A900BCFA6B /* GameBoard.swift */,
 				978AB5E61EE3C06300BCFA6B /* GameSpace.swift */,
-				978AB5E81EE3C08500BCFA6B /* Shaper.swift */,
-				973966191EE24C5D009A58AE /* Extensions */,
+				97AAD2201EF7414700447956 /* GamePlayer.swift */,
+				978AB5E81EE3C08500BCFA6B /* GameSpaceShaper.swift */,
+				97AAD2261EF7C02D00447956 /* GameSpaceState.swift */,
+				9709D2AB1F15E2E80077F774 /* Protocols */,
 			);
 			path = Cirque;
 			sourceTree = "<group>";
@@ -128,12 +151,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Aaron Williamson";
 				TargetAttributes = {
 					973965FE1EE24BB3009A58AE = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 5GJ9V4N76W;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -174,13 +198,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9739661C1EE24D62009A58AE /* CGRect+Extension.swift in Sources */,
+				97AAD2271EF7C02D00447956 /* GameSpaceState.swift in Sources */,
 				973966051EE24BB3009A58AE /* ViewController.swift in Sources */,
-				978AB5EB1EE3C0A900BCFA6B /* Board.swift in Sources */,
+				978AB5EB1EE3C0A900BCFA6B /* GameBoard.swift in Sources */,
 				978AB5E71EE3C06300BCFA6B /* GameSpace.swift in Sources */,
 				9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */,
-				978AB5E91EE3C08500BCFA6B /* Shaper.swift in Sources */,
+				97AAD2251EF7BFB300447956 /* PointConverting.swift in Sources */,
+				978AB5E91EE3C08500BCFA6B /* GameSpaceShaper.swift in Sources */,
 				973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */,
+				9709D2B31F1881B80077F774 /* SpaceOwning.swift in Sources */,
 				973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */,
+				97AAD2211EF7414700447956 /* GamePlayer.swift in Sources */,
+				97AAD2291EF7C1BF00447956 /* Highlighting.swift in Sources */,
 				973966221EE26937009A58AE /* GameScene.swift in Sources */,
 				97AAD21F1EF7059400447956 /* Dictionary+Filter.swift in Sources */,
 			);
@@ -210,7 +239,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -218,7 +249,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -260,7 +295,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -268,7 +305,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -303,7 +344,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaronwilliamson.Cirque;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -317,7 +359,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaronwilliamson.Cirque;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

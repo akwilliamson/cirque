@@ -11,6 +11,6 @@ import Foundation
 extension Dictionary where Value: Equatable {
     
     func keys(forValue val: Value) -> [Key] {
-        return self.filter { $1 == val }.map { $0.0 }
+        return self.filter { $0.1 == val }.map { $0.0 }
     }
 }

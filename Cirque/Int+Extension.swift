@@ -13,4 +13,8 @@ extension Int {
     var cg: CGFloat {
         return CGFloat(self)
     }
+    
+    var indexAdjusted: Int {
+        return self - 1
+    }
 }

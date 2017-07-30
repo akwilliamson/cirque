@@ -18,4 +18,3 @@ extension CGFloat {
         return Int(self)
     }
 }
-

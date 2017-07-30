@@ -11,21 +11,31 @@ import SpriteKit
 
 class ViewController: UIViewController {
     
-    var gameScene: SKScene?
+    private var gameScene: SKScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let skView = view as? SKView else { return }
+        skView.ignoresSiblingOrder = true
         
-        createGame(numberOfGroups: 8, numberOfRings: 5)
-        
-        if let skView = view as? SKView {
-            skView.ignoresSiblingOrder = true
-            skView.presentScene(gameScene)
-        }
+        createGameScene(numberOfPlayers: 2, numberOfGroups: 8, numberOfRings: 5)
+        skView.presentScene(gameScene)
     }
     
-    private func createGame(numberOfGroups: Int, numberOfRings: Int) {
-        let gameBoard = GameBoard(container: view.frame, groups: numberOfGroups, rings: numberOfRings)
-        gameScene = GameScene(size: view.frame.size, gameBoard: gameBoard)
+    private func createGameScene(numberOfPlayers: Int, numberOfGroups: Int, numberOfRings: Int) {
+        
+        let player1 = GamePlayer(color: .white)
+        let player2 = GamePlayer(color: .black)
+        let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
+        
+        gameScene = GameScene(size: view.frame.size, player1: player1, player2: player2, gameBoard: gameBoard)
+    }
+    
+    private func createGameBoard(numberOfGroups: Int, numberOfRings: Int) -> GameBoard {
+        return GameBoard(container: view.frame, groups: numberOfGroups, rings: numberOfRings)
+    }
+    
+    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        gameScene?.pressesEnded(presses, with: event)
     }
 }

@@ -11,9 +11,35 @@ import SpriteKit
 
 class GameSpace: SKShapeNode {
     
-    var ringNum: Int = 0
     var groupNum: Int = 0
-    var color: UIColor = .white { didSet { fillColor = color } }
+    var ringNum: Int = 0
+    
+    var owner: GamePlayer? {
+        didSet {
+            selectSpace()
+        }
+    }
+    
+    var state: GameSpaceState = .open {
+        didSet {
+            fillColor = stateColor
+        }
+    }
+    
+    var isSelectable: Bool {
+        return state != .selected && state != .closed
+    }
+    
+    var stateColor: UIColor {
+        switch state {
+        case .open:
+            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
+        case .highlighted, .selected:
+            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.8, brightness: 1.0, alpha: 1.0)
+        case .closed:
+            return UIColor.black
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -25,11 +51,43 @@ class GameSpace: SKShapeNode {
         self.isUserInteractionEnabled = true
     }
     
-    convenience init(path: CGPath, ringNum: Int, groupNum: Int) {
+    convenience init(path: CGPath, groupNum: Int, ringNum: Int) {
         self.init(path: path)
-        self.ringNum = ringNum
         self.groupNum = groupNum
-        self.color = UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
-        fillColor = self.color
+        self.ringNum = ringNum
+        self.fillColor = stateColor
+    }
+    
+    private func selectSpace() {
+        if let owner = owner {
+            select()
+            // TODO: Refactor adding child node
+            let origin = CGPoint(x: frame.center.x - 15, y: frame.center.y - 15)
+            let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
+            let path = UIBezierPath(ovalIn: rect).cgPath
+            let node = SKShapeNode(path: path)
+            node.fillColor = owner.color
+            addChild(node)
+        }
+    }
+    
+    func highlight() {
+        if isSelectable {
+            state = .highlighted
+        }
+    }
+    
+    func select() {
+        state = .selected
+    }
+    
+    func reopen() {
+        if isSelectable {
+            state = .open
+        }
+    }
+    
+    func close() {
+        state = .closed
     }
 }

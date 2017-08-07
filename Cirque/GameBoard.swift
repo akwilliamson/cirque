@@ -48,6 +48,26 @@ class GameBoard: SKNode {
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
         delegate?.set(focusedGameSpace)
+        
+        if let selectedGroupNum = focusedGameSpace?.groupNum, let selectedRingNum = focusedGameSpace?.ringNum {
+            
+            let doubleClockwiseSpace = gameSpaces[wrapping: selectedGroupNum.incremented+1][wrapping: selectedRingNum.index]
+            let doubleCounterclockwiseSpace = gameSpaces[wrapping: selectedGroupNum.decremented-1][wrapping: selectedRingNum.index]
+            
+            if doubleClockwiseSpace.owner == focusedGameSpace?.owner && doubleClockwiseSpace.state == .selected {
+                let clockwiseSpace = gameSpaces[wrapping: selectedGroupNum.incremented][wrapping: selectedRingNum.index]
+                if clockwiseSpace.owner != focusedGameSpace?.owner {
+                    clockwiseSpace.clearOwner()
+                }
+            }
+            
+            if doubleCounterclockwiseSpace.owner == focusedGameSpace?.owner && doubleCounterclockwiseSpace.state == .selected {
+                let counterclockwiseSpace = gameSpaces[wrapping: selectedGroupNum.decremented][wrapping: selectedRingNum.index]
+                if counterclockwiseSpace.owner != focusedGameSpace?.owner {
+                    counterclockwiseSpace.clearOwner()
+                }
+            }
+        }
     }
     
     func generateSpaces() {
@@ -56,14 +76,14 @@ class GameBoard: SKNode {
         
         for groupNum in 1...groups {
             gameSpaces.append(Array())
-            groupMapping[groupNum.indexAdjusted] = (gameSpaceShaper.startAngle...gameSpaceShaper.endAngle)
+            groupMapping[groupNum.index] = (gameSpaceShaper.startAngle...gameSpaceShaper.endAngle)
             
             for ringNum in 1...rings {
-                if ringMapping[ringNum.indexAdjusted] == nil {
-                    ringMapping[ringNum.indexAdjusted] = (gameSpaceShaper.endRadius...gameSpaceShaper.startRadius)
+                if ringMapping[ringNum.index] == nil {
+                    ringMapping[ringNum.index] = (gameSpaceShaper.endRadius...gameSpaceShaper.startRadius)
                 }
                 let gameSpace = GameSpace(path: gameSpaceShaper.path, groupNum: groupNum, ringNum: ringNum)
-                gameSpaces[groupNum.indexAdjusted].append(gameSpace)
+                gameSpaces[groupNum.index].append(gameSpace)
                 addChild(gameSpace)
                 gameSpaceShaper.startRadius = incrementStartRadiusFor(ringNum.cg)
             }

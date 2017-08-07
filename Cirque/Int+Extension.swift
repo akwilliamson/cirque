@@ -14,7 +14,15 @@ extension Int {
         return CGFloat(self)
     }
     
-    var indexAdjusted: Int {
+    var index: Int {
         return self - 1
+    }
+    
+    var incremented: Int {
+        return index + 1
+    }
+    
+    var decremented: Int {
+        return index - 1
     }
 }

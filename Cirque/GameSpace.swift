@@ -66,7 +66,7 @@ class GameSpace: SKShapeNode {
             let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
             let path = UIBezierPath(ovalIn: rect).cgPath
             let node = SKShapeNode(path: path)
-            node.fillColor = owner.color
+            node.fillColor = owner.player.color
             addChild(node)
         }
     }
@@ -85,6 +85,11 @@ class GameSpace: SKShapeNode {
         if isSelectable {
             state = .open
         }
+    }
+    
+    func clearOwner() {
+        children.forEach { $0.removeFromParent() }
+        state = .open
     }
     
     func close() {

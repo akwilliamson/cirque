@@ -24,6 +24,7 @@
 		97AAD2251EF7BFB300447956 /* PointConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2241EF7BFB300447956 /* PointConverting.swift */; };
 		97AAD2271EF7C02D00447956 /* GameSpaceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2261EF7C02D00447956 /* GameSpaceState.swift */; };
 		97AAD2291EF7C1BF00447956 /* Highlighting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AAD2281EF7C1BF00447956 /* Highlighting.swift */; };
+		97F356FC1F37BC6300C10B65 /* Array+Subscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F356FB1F37BC6300C10B65 /* Array+Subscript.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		97AAD2241EF7BFB300447956 /* PointConverting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointConverting.swift; sourceTree = "<group>"; };
 		97AAD2261EF7C02D00447956 /* GameSpaceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSpaceState.swift; sourceTree = "<group>"; };
 		97AAD2281EF7C1BF00447956 /* Highlighting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlighting.swift; sourceTree = "<group>"; };
+		97F356FB1F37BC6300C10B65 /* Array+Subscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Subscript.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */,
 				9739661B1EE24D62009A58AE /* CGRect+Extension.swift */,
 				97AAD21E1EF7059400447956 /* Dictionary+Filter.swift */,
+				97F356FB1F37BC6300C10B65 /* Array+Subscript.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				97AAD2251EF7BFB300447956 /* PointConverting.swift in Sources */,
 				978AB5E91EE3C08500BCFA6B /* GameSpaceShaper.swift in Sources */,
 				973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */,
+				97F356FC1F37BC6300C10B65 /* Array+Subscript.swift in Sources */,
 				9709D2B31F1881B80077F774 /* SpaceOwning.swift in Sources */,
 				973966031EE24BB3009A58AE /* AppDelegate.swift in Sources */,
 				97AAD2211EF7414700447956 /* GamePlayer.swift in Sources */,

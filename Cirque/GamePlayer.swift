@@ -9,12 +9,16 @@
 import UIKit
 import SpriteKit
 
-struct GamePlayer {
+struct GamePlayer: Equatable {
     
-    var color: UIColor
+    var player: CurrentPlayer
     
-    init(color: UIColor) {
-        self.color = color
+    init(player: CurrentPlayer) {
+        self.player = player
+    }
+    
+    static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
+        return lhs.player == rhs.player
     }
     
     func own(_ gameSpace: GameSpace?, switchPlayer: (Bool) -> Void) {

@@ -24,8 +24,8 @@ class ViewController: UIViewController {
     
     private func createGameScene(numberOfPlayers: Int, numberOfGroups: Int, numberOfRings: Int) {
         
-        let player1 = GamePlayer(color: .white)
-        let player2 = GamePlayer(color: .black)
+        let player1 = GamePlayer(player: .player1)
+        let player2 = GamePlayer(player: .player2)
         let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
         
         gameScene = GameScene(size: view.frame.size, player1: player1, player2: player2, gameBoard: gameBoard)

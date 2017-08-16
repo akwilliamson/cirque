@@ -50,8 +50,11 @@ class GameBoard: SKNode {
         delegate?.set(focusedGameSpace)
         guard let selectedGroupNum = focusedGameSpace?.groupNum, let selectedRingNum = focusedGameSpace?.ringNum else { return }
         
-        let closedSpaces = gameSpaces[selectedGroupNum.index].map { $0.state == .closed }
-        if closedSpaces.contains(false) {
+        let gameSpacesInGroup = gameSpaces[selectedGroupNum.index]
+        let gameSpaceStates = gameSpacesInGroup.map { $0.state }
+        
+        if !gameSpaceStates.contains(.open) {
+            gameSpacesInGroup.forEach { $0.close() }
             return
         }
         

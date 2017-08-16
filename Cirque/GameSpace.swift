@@ -33,11 +33,11 @@ class GameSpace: SKShapeNode {
     var stateColor: UIColor {
         switch state {
         case .open:
-            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.4, brightness: 1.0, alpha: 1.0)
+            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0)
         case .highlighted, .selected:
             return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.8, brightness: 1.0, alpha: 1.0)
         case .closed:
-            return UIColor.black
+            return UIColor.darkGray
         }
     }
     
@@ -93,6 +93,7 @@ class GameSpace: SKShapeNode {
     }
     
     func close() {
+        owner?.close(UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0))
         state = .closed
     }
 }

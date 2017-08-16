@@ -11,14 +11,42 @@ import SpriteKit
 
 struct GamePlayer: Equatable {
     
-    var player: CurrentPlayer
+    let player: CurrentPlayer
+    let colorOne: UIColor
+    let colorTwo: UIColor
     
-    init(player: CurrentPlayer) {
-        self.player = player
+    var colorOneClosed: Bool = false {
+        didSet {
+            if colorOneClosed && colorTwoClosed {
+                print("PLAYER \(player) LOST")
+            }
+        }
+    }
+    var colorTwoClosed: Bool = false {
+        didSet {
+            if colorOneClosed && colorTwoClosed {
+                print("PLAYER \(player) LOST")
+            }
+        }
+    }
+    
+    init(player: CurrentPlayer, colorOne: UIColor, colorTwo: UIColor) {
+        self.player   = player
+        self.colorOne = colorOne
+        self.colorTwo = colorTwo
     }
     
     static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
         return lhs.player == rhs.player
+    }
+    
+    mutating func close(_ color: UIColor) {
+        
+        if color == colorOne {
+            colorOneClosed = true
+        } else if color == colorTwo {
+            colorTwoClosed = true
+        }
     }
     
     func own(_ gameSpace: GameSpace?, switchPlayer: (Bool) -> Void) {

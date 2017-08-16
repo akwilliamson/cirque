@@ -13,22 +13,52 @@ class ViewController: UIViewController {
     
     private var gameScene: SKScene?
     
+    @IBOutlet weak var playerOneColorOneView: UIView!
+    @IBOutlet weak var playerOneColorTwoView: UIView!
+    @IBOutlet weak var playerOneShowColorsButton: UIButton!
+    
+    @IBOutlet weak var playerTwoColorOneView: UIView!
+    @IBOutlet weak var playerTwoColorTwoView: UIView!
+    @IBOutlet weak var playerTwoShowColorsButton: UIButton!
+    
+    var playerOne: GamePlayer?
+    var playerTwo: GamePlayer?
+    
+    var playerOneColorOne: UIColor?
+    var playerOneColorTwo: UIColor?
+    var playerTwoColorOne: UIColor?
+    var playerTwoColorTwo: UIColor?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
         
+        playerOneColorOneView.backgroundColor = playerOneColorOne
+        playerOneColorTwoView.backgroundColor = playerOneColorTwo
+        playerTwoColorOneView.backgroundColor = playerTwoColorOne
+        playerTwoColorTwoView.backgroundColor = playerTwoColorTwo
+        
         createGameScene(numberOfPlayers: 2, numberOfGroups: 8, numberOfRings: 5)
         skView.presentScene(gameScene)
     }
     
+    @IBAction func playerOneShowColorsPressed(_ sender: UIButton) {
+        playerOneColorOneView.isHidden = !playerOneColorOneView.isHidden
+        playerOneColorTwoView.isHidden = !playerOneColorTwoView.isHidden
+    }
+    
+    @IBAction func playerTwoShowColorsPressed(_ sender: UIButton) {
+        playerTwoColorOneView.isHidden = !playerTwoColorOneView.isHidden
+        playerTwoColorTwoView.isHidden = !playerTwoColorTwoView.isHidden
+    }
+    
     private func createGameScene(numberOfPlayers: Int, numberOfGroups: Int, numberOfRings: Int) {
-        
-        let player1 = GamePlayer(player: .player1)
-        let player2 = GamePlayer(player: .player2)
         let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
         
-        gameScene = GameScene(size: view.frame.size, player1: player1, player2: player2, gameBoard: gameBoard)
+        if let playerOne = playerOne, let playerTwo = playerTwo {
+            gameScene = GameScene(size: view.frame.size, player1: playerOne, player2: playerTwo, gameBoard: gameBoard)
+        }
     }
     
     private func createGameBoard(numberOfGroups: Int, numberOfRings: Int) -> GameBoard {

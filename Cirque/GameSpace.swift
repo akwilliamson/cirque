@@ -37,7 +37,7 @@ class GameSpace: SKShapeNode {
         case .highlighted, .selected:
             return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.8, brightness: 1.0, alpha: 1.0)
         case .closed:
-            return UIColor.darkGray
+            return UIColor.gray
         }
     }
     

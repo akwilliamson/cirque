@@ -59,7 +59,7 @@ class GameSetupViewController: UIViewController {
             currentPlayer = .player2
         case .player2:
             let sb = UIStoryboard.init(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "GameScene") as! ViewController
+            let vc = sb.instantiateViewController(withIdentifier: "GameScene") as! GameSceneViewController
             
             vc.playerOneColorOne = playerOne?.colorOne
             vc.playerOneColorTwo = playerOne?.colorTwo

@@ -8,21 +8,6 @@
 
 import SpriteKit
 
-enum CurrentPlayer {
-    
-    case player1
-    case player2
-    
-    var color: UIColor {
-        switch self {
-        case .player1:
-            return .white
-        case .player2:
-            return .black
-        }
-    }
-}
-
 class GameScene: SKScene, PointConverting {
     
     fileprivate var player1: GamePlayer
@@ -83,7 +68,7 @@ class GameScene: SKScene, PointConverting {
 
 extension GameScene: SpaceOwning {
     
-    func set(_ gameSpace: GameSpace?) {
+    func setState(of gameSpace: GameSpace?) {
         
         switch currentPlayer {
         case .player1:

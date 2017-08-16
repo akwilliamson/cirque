@@ -31,6 +31,12 @@ struct GameSpaceShaper {
     var endAngle: CGFloat
     var endRadius: CGFloat
     
+    var centerPoint: CGPoint {
+        let centerX = startRadius - (width/2)
+        let centerY = startAngle + (length/2)
+        return CGPoint(x: centerX, y: centerY)
+    }
+    
     init(center: CGPoint, length: CGFloat, width: CGFloat, startAngle: CGFloat = 0.0, startRadius: CGFloat) {
         self.center      = center
         self.length      = length

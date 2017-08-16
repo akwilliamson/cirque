@@ -47,7 +47,7 @@ class GameBoard: SKNode {
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        delegate?.set(focusedGameSpace)
+        delegate?.setState(of: focusedGameSpace)
         guard let selectedGroupNum = focusedGameSpace?.groupNum, let selectedRingNum = focusedGameSpace?.ringNum else { return }
         
         let gameSpacesInGroup = gameSpaces[selectedGroupNum.index]

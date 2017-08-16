@@ -9,5 +9,5 @@
 protocol SpaceOwning {
     
     func switchPlayers()
-    func set(_ gameSpace: GameSpace?)
+    func setState(of gameSpace: GameSpace?)
 }

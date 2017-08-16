@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class ViewController: UIViewController {
+class GameSceneViewController: UIViewController {
     
     private var gameScene: SKScene?
     

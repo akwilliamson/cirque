@@ -13,7 +13,7 @@ class GameScene: SKScene, PointConverting {
     private var gameBoard: GameBoard
     fileprivate var playerOne: GamePlayer
     fileprivate var playerTwo: GamePlayer
-    fileprivate var currentPlayer: Player
+    fileprivate var currentPlayer: GamePlayer
     
     private var touchOrigin: CGPoint?
 
@@ -24,8 +24,8 @@ class GameScene: SKScene, PointConverting {
     init(size: CGSize, playerOne: GamePlayer, playerTwo: GamePlayer, gameBoard: GameBoard) {
         self.playerOne = playerOne
         self.playerTwo = playerTwo
+        self.currentPlayer = playerOne
         self.gameBoard = gameBoard
-        self.currentPlayer = playerOne.player
         super.init(size: size)
         self.gameBoard.gamePlayerDelegate = self
     }
@@ -50,7 +50,6 @@ class GameScene: SKScene, PointConverting {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touchOrigin = touchOrigin else { return }
         guard let touchCurrent = touches.first?.location(in: self) else {
-            gameSettingsDelegate?.enableButtons()
             return
         }
         
@@ -68,11 +67,9 @@ class GameScene: SKScene, PointConverting {
 extension GameScene: GamePlayerDelegate {
     
     func own(_ gameSpace: GameSpace?) {
-        let player = currentPlayer == .one ? playerOne : playerTwo
-        
-        player.own(gameSpace) { endPlayerTurn in
+        currentPlayer.own(gameSpace) { endPlayerTurn in
             if endPlayerTurn {
-                currentPlayer = currentPlayer == .one ? .two : .one
+                currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne
             }
         }
     }

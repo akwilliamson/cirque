@@ -47,10 +47,13 @@ class GameBoard: SKNode {
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        gamePlayerDelegate?.setState(of: focusedGameSpace)
-        guard let selectedGroupNum = focusedGameSpace?.groupNum, let selectedRingNum = focusedGameSpace?.ringNum else { return }
+        guard let selectedGameSpace = focusedGameSpace else { return }
+        gamePlayerDelegate?.own(selectedGameSpace)
         
-        let gameSpacesInGroup = gameSpaces[selectedGroupNum.index]
+        let selectedGroup = selectedGameSpace.groupNum
+        let selectedRing = selectedGameSpace.ringNum
+        
+        let gameSpacesInGroup = gameSpaces[selectedGroup.index]
         let gameSpaceStates = gameSpacesInGroup.map { $0.state }
         
         if !gameSpaceStates.contains(.open) {
@@ -60,18 +63,18 @@ class GameBoard: SKNode {
         
         // Check if other 4 game spaces in the group are selected. If so, close the whole group.
         
-        let doubleClockwiseSpace = gameSpaces[wrapping: selectedGroupNum.incremented+1][wrapping: selectedRingNum.index]
-        let doubleCounterclockwiseSpace = gameSpaces[wrapping: selectedGroupNum.decremented-1][wrapping: selectedRingNum.index]
+        let doubleClockwiseSpace = gameSpaces[wrapping: selectedGroup.incremented + 1][wrapping: selectedRing.index]
+        let doubleCounterclockwiseSpace = gameSpaces[wrapping: selectedGroup.decremented - 1][wrapping: selectedRing.index]
         
         if doubleClockwiseSpace.owner == focusedGameSpace?.owner && doubleClockwiseSpace.state == .selected {
-            let clockwiseSpace = gameSpaces[wrapping: selectedGroupNum.incremented][wrapping: selectedRingNum.index]
+            let clockwiseSpace = gameSpaces[wrapping: selectedGroup.incremented][wrapping: selectedRing.index]
             if clockwiseSpace.owner != focusedGameSpace?.owner && clockwiseSpace.state != .closed {
                 clockwiseSpace.clearOwner()
             }
         }
         
         if doubleCounterclockwiseSpace.owner == focusedGameSpace?.owner && doubleCounterclockwiseSpace.state == .selected {
-            let counterclockwiseSpace = gameSpaces[wrapping: selectedGroupNum.decremented][wrapping: selectedRingNum.index]
+            let counterclockwiseSpace = gameSpaces[wrapping: selectedGroup.decremented][wrapping: selectedRing.index]
             if counterclockwiseSpace.owner != focusedGameSpace?.owner && counterclockwiseSpace.state != .closed {
                 counterclockwiseSpace.clearOwner()
             }

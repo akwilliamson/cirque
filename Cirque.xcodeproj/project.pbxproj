@@ -17,6 +17,7 @@
 		9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661D1EE24D7C009A58AE /* Int+Extension.swift */; };
 		973966201EE24D9B009A58AE /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */; };
 		973966221EE26937009A58AE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973966211EE26937009A58AE /* GameScene.swift */; };
+		97886E1C1F57EC3000056A59 /* GameEndingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97886E1B1F57EC3000056A59 /* GameEndingDelegate.swift */; };
 		978AB5E71EE3C06300BCFA6B /* GameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E61EE3C06300BCFA6B /* GameSpace.swift */; };
 		978AB5E91EE3C08500BCFA6B /* GameSpaceShaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5E81EE3C08500BCFA6B /* GameSpaceShaper.swift */; };
 		978AB5EB1EE3C0A900BCFA6B /* GameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978AB5EA1EE3C0A900BCFA6B /* GameBoard.swift */; };
@@ -45,6 +46,7 @@
 		9739661D1EE24D7C009A58AE /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		9739661F1EE24D9B009A58AE /* CGFloat+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		973966211EE26937009A58AE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		97886E1B1F57EC3000056A59 /* GameEndingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEndingDelegate.swift; sourceTree = "<group>"; };
 		978AB5E61EE3C06300BCFA6B /* GameSpace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSpace.swift; sourceTree = "<group>"; };
 		978AB5E81EE3C08500BCFA6B /* GameSpaceShaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSpaceShaper.swift; sourceTree = "<group>"; };
 		978AB5EA1EE3C0A900BCFA6B /* GameBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				97AAD2241EF7BFB300447956 /* PointConverting.swift */,
 				97AAD2281EF7C1BF00447956 /* Highlighting.swift */,
 				978D8D741F4F242700189919 /* GameColoring.swift */,
+				97886E1B1F57EC3000056A59 /* GameEndingDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				978AB5EB1EE3C0A900BCFA6B /* GameBoard.swift in Sources */,
 				978AB5E71EE3C06300BCFA6B /* GameSpace.swift in Sources */,
 				9739661E1EE24D7C009A58AE /* Int+Extension.swift in Sources */,
+				97886E1C1F57EC3000056A59 /* GameEndingDelegate.swift in Sources */,
 				97E515291F44166300C2D509 /* Collection+Extension.swift in Sources */,
 				97AAD2251EF7BFB300447956 /* PointConverting.swift in Sources */,
 				978AB5E91EE3C08500BCFA6B /* GameSpaceShaper.swift in Sources */,

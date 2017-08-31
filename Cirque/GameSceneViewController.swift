@@ -9,17 +9,17 @@
 import UIKit
 import SpriteKit
 
-class GameSceneViewController: UIViewController, GameSettingsDelegate {
+class GameSceneViewController: UIViewController {
     
     private var gameScene: GameScene?
     
     @IBOutlet weak var winnerLabel: UILabel!
     
     var playerOne: GamePlayer? {
-        didSet { playerOne?.alertDelegate = self }
+        didSet { playerOne?.gameEndingDelegate = self }
     }
     var playerTwo: GamePlayer? {
-        didSet { playerTwo?.alertDelegate = self }
+        didSet { playerTwo?.gameEndingDelegate = self }
     }
     
     override func viewDidLoad() {
@@ -48,7 +48,7 @@ class GameSceneViewController: UIViewController, GameSettingsDelegate {
     }
 }
 
-extension GameSceneViewController: AlertDelegate {
+extension GameSceneViewController: GameEndingDelegate {
     
     func alert(loser: Player) {
         

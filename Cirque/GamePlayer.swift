@@ -9,18 +9,13 @@
 import UIKit
 import SpriteKit
 
-protocol AlertDelegate {
-
-    func alert(loser: Player)
-}
-
 class GamePlayer {
     
     let player: Player
     let groupColorOne: UIColor
     let groupColorTwo: UIColor
     
-    var alertDelegate: AlertDelegate?
+    var gameEndingDelegate: GameEndingDelegate?
     
     var groupColorOneClosed: Bool = false {
         didSet { checkIfLost() }
@@ -36,23 +31,6 @@ class GamePlayer {
         self.groupColorTwo  = groupColorTwo
     }
     
-    func closeGroupColor(_ groupColor: UIColor) {
-        if groupColor == groupColorOne {
-            print(player, "group color one closed")
-            groupColorOneClosed = true
-        }
-        if groupColor == groupColorTwo {
-            print(player, "group color two closed")
-            groupColorTwoClosed = true
-        }
-    }
-    
-    private func checkIfLost() {
-        if groupColorOneClosed && groupColorTwoClosed {
-            alertDelegate?.alert(loser: self.player)
-        }
-    }
-    
     func own(_ gameSpace: GameSpace?, switchPlayer: (Bool) -> Void) {
         guard let gameSpace = gameSpace else { return }
         
@@ -61,6 +39,17 @@ class GamePlayer {
             switchPlayer(true)
         } else {
             switchPlayer(false)
+        }
+    }
+    
+    func closeGroupColor(_ groupColor: UIColor) {
+        groupColorOneClosed = groupColor == groupColorOne
+        groupColorTwoClosed = groupColor == groupColorTwo
+    }
+    
+    private func checkIfLost() {
+        if groupColorOneClosed && groupColorTwoClosed {
+            gameEndingDelegate?.alert(loser: player)
         }
     }
 }

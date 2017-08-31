@@ -9,56 +9,34 @@
 import UIKit
 import SpriteKit
 
-class GameSceneViewController: UIViewController {
+class GameSceneViewController: UIViewController, GameSettingsDelegate {
     
-    private var gameScene: SKScene?
+    private var gameScene: GameScene?
     
-    @IBOutlet weak var playerOneColorOneView: UIView!
-    @IBOutlet weak var playerOneColorTwoView: UIView!
-    @IBOutlet weak var playerOneShowColorsButton: UIButton!
+    @IBOutlet weak var winnerLabel: UILabel!
     
-    @IBOutlet weak var playerTwoColorOneView: UIView!
-    @IBOutlet weak var playerTwoColorTwoView: UIView!
-    @IBOutlet weak var playerTwoShowColorsButton: UIButton!
-    
-    var playerOne: GamePlayer?
-    var playerTwo: GamePlayer?
-    
-    var playerOneColorOne: UIColor?
-    var playerOneColorTwo: UIColor?
-    var playerTwoColorOne: UIColor?
-    var playerTwoColorTwo: UIColor?
+    var playerOne: GamePlayer? {
+        didSet { playerOne?.alertDelegate = self }
+    }
+    var playerTwo: GamePlayer? {
+        didSet { playerTwo?.alertDelegate = self }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
         
-        playerOneColorOneView.backgroundColor = playerOneColorOne
-        playerOneColorTwoView.backgroundColor = playerOneColorTwo
-        playerTwoColorOneView.backgroundColor = playerTwoColorOne
-        playerTwoColorTwoView.backgroundColor = playerTwoColorTwo
-        
         createGameScene(numberOfPlayers: 2, numberOfGroups: 8, numberOfRings: 5)
+        
         skView.presentScene(gameScene)
     }
     
-    @IBAction func playerOneShowColorsPressed(_ sender: UIButton) {
-        playerOneColorOneView.isHidden = !playerOneColorOneView.isHidden
-        playerOneColorTwoView.isHidden = !playerOneColorTwoView.isHidden
-    }
-    
-    @IBAction func playerTwoShowColorsPressed(_ sender: UIButton) {
-        playerTwoColorOneView.isHidden = !playerTwoColorOneView.isHidden
-        playerTwoColorTwoView.isHidden = !playerTwoColorTwoView.isHidden
-    }
-    
     private func createGameScene(numberOfPlayers: Int, numberOfGroups: Int, numberOfRings: Int) {
-        let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
+        guard let playerOne = playerOne, let playerTwo = playerTwo else { return }
         
-        if let playerOne = playerOne, let playerTwo = playerTwo {
-            gameScene = GameScene(size: view.frame.size, player1: playerOne, player2: playerTwo, gameBoard: gameBoard)
-        }
+        let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
+        gameScene = GameScene(size: view.frame.size, playerOne: playerOne, playerTwo: playerTwo, gameBoard: gameBoard)
     }
     
     private func createGameBoard(numberOfGroups: Int, numberOfRings: Int) -> GameBoard {
@@ -67,5 +45,19 @@ class GameSceneViewController: UIViewController {
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
         gameScene?.pressesEnded(presses, with: event)
+    }
+}
+
+extension GameSceneViewController: AlertDelegate {
+    
+    func alert(loser: Player) {
+        
+        switch loser {
+        case .one:
+            winnerLabel.text = "Player 2 won!"
+        case .two:
+            winnerLabel.text = "Player 1 won!"
+        }
+        winnerLabel.sizeToFit()
     }
 }

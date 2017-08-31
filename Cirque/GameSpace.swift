@@ -16,7 +16,8 @@ class GameSpace: SKShapeNode {
     
     var owner: GamePlayer? {
         didSet {
-            selectSpace()
+            select()
+            addOwnerChip()
         }
     }
     
@@ -58,23 +59,8 @@ class GameSpace: SKShapeNode {
         self.fillColor = stateColor
     }
     
-    private func selectSpace() {
-        if let owner = owner {
-            select()
-            // TODO: Refactor adding child node
-            let origin = CGPoint(x: frame.center.x - 15, y: frame.center.y - 15)
-            let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
-            let path = UIBezierPath(ovalIn: rect).cgPath
-            let node = SKShapeNode(path: path)
-            node.fillColor = owner.player.color
-            addChild(node)
-        }
-    }
-    
     func highlight() {
-        if isSelectable {
-            state = .highlighted
-        }
+        if isSelectable { state = .highlighted }
     }
     
     func select() {
@@ -82,9 +68,7 @@ class GameSpace: SKShapeNode {
     }
     
     func reopen() {
-        if isSelectable {
-            state = .open
-        }
+        if isSelectable { state = .open }
     }
     
     func clearOwner() {
@@ -93,7 +77,18 @@ class GameSpace: SKShapeNode {
     }
     
     func close() {
-        owner?.close(UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0))
+        let groupColor = UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0)
+        owner?.closeGroupColor(groupColor)
         state = .closed
+    }
+    
+    func addOwnerChip() {
+        guard let owner = owner else { return }
+        let origin = CGPoint(x: frame.center.x - 15, y: frame.center.y - 15)
+        let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
+        let path = UIBezierPath(ovalIn: rect).cgPath
+        let node = SKShapeNode(path: path)
+        node.fillColor = owner.player.selectionColor
+        addChild(node)
     }
 }

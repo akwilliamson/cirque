@@ -10,11 +10,10 @@ import SpriteKit
 
 class GameScene: SKScene, PointConverting {
     
-    fileprivate var player1: GamePlayer
-    fileprivate var player2: GamePlayer
     private var gameBoard: GameBoard
-    
-    fileprivate var currentPlayer: CurrentPlayer
+    fileprivate var playerOne: GamePlayer
+    fileprivate var playerTwo: GamePlayer
+    fileprivate var currentPlayer: Player
     
     private var touchOrigin: CGPoint?
 
@@ -22,17 +21,17 @@ class GameScene: SKScene, PointConverting {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(size: CGSize, player1: GamePlayer, player2: GamePlayer, gameBoard: GameBoard) {
-        self.player1 = player1
-        self.player2 = player2
+    init(size: CGSize, playerOne: GamePlayer, playerTwo: GamePlayer, gameBoard: GameBoard) {
+        self.playerOne = playerOne
+        self.playerTwo = playerTwo
         self.gameBoard = gameBoard
-        self.currentPlayer = .player1
+        self.currentPlayer = playerOne.player
         super.init(size: size)
+        self.gameBoard.gamePlayerDelegate = self
     }
     
     override func didMove(to view: SKView) {
         gameBoard.generateSpaces()
-        gameBoard.delegate = self
         addChild(gameBoard)
     }
     
@@ -49,7 +48,11 @@ class GameScene: SKScene, PointConverting {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touchOrigin = touchOrigin, let touchCurrent = touches.first?.location(in: self) else { return }
+        guard let touchOrigin = touchOrigin else { return }
+        guard let touchCurrent = touches.first?.location(in: self) else {
+            gameSettingsDelegate?.enableButtons()
+            return
+        }
         
         let angle = getAngleBetween(point1: touchOrigin, point2: touchCurrent)
         let distance = getDistanceBetween(point1: touchOrigin, point2: touchCurrent)
@@ -60,24 +63,16 @@ class GameScene: SKScene, PointConverting {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOrigin = nil
     }
-    
-    func switchPlayers() {
-        currentPlayer = currentPlayer == .player1 ? .player2 : .player1
-    }
 }
 
-extension GameScene: SpaceOwning {
+extension GameScene: GamePlayerDelegate {
     
-    func setState(of gameSpace: GameSpace?) {
+    func own(_ gameSpace: GameSpace?) {
+        let player = currentPlayer == .one ? playerOne : playerTwo
         
-        switch currentPlayer {
-        case .player1:
-            player1.own(gameSpace) { shouldSwitch in
-                if shouldSwitch { switchPlayers() }
-            }
-        case .player2:
-            player2.own(gameSpace) { shouldSwitch in
-                if shouldSwitch { switchPlayers() }
+        player.own(gameSpace) { endPlayerTurn in
+            if endPlayerTurn {
+                currentPlayer = currentPlayer == .one ? .two : .one
             }
         }
     }

@@ -31,7 +31,7 @@ class GameBoard: SKNode {
     var lengthForSpace: CGFloat { return .tau/groups.cg }
     var widthForSpace:  CGFloat { return radius/rings.cg - ringMargin }
     
-    var delegate: SpaceOwning?
+    var gamePlayerDelegate: GamePlayerDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -47,7 +47,7 @@ class GameBoard: SKNode {
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        delegate?.setState(of: focusedGameSpace)
+        gamePlayerDelegate?.setState(of: focusedGameSpace)
         guard let selectedGroupNum = focusedGameSpace?.groupNum, let selectedRingNum = focusedGameSpace?.ringNum else { return }
         
         let gameSpacesInGroup = gameSpaces[selectedGroupNum.index]

@@ -1,13 +1,12 @@
 //
-//  SpaceOwning.swift
+//  GamePlayerDelegate.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 7/13/17.
 //  Copyright © 2017 Aaron Williamson. All rights reserved.
 //
 
-protocol SpaceOwning {
+protocol GamePlayerDelegate {
     
-    func switchPlayers()
-    func setState(of gameSpace: GameSpace?)
+    func own(_ gameSpace: GameSpace?)
 }

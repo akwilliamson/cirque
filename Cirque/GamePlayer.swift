@@ -9,53 +9,65 @@
 import UIKit
 import SpriteKit
 
-struct GamePlayer: Equatable {
+protocol AlertDelegate {
+
+    func alert(loser: Player)
+}
+
+class GamePlayer {
     
-    let player: CurrentPlayer
-    let colorOne: UIColor
-    let colorTwo: UIColor
+    let player: Player
+    let groupColorOne: UIColor
+    let groupColorTwo: UIColor
     
-    var colorOneClosed: Bool = false {
-        didSet {
-            if colorOneClosed && colorTwoClosed {
-                print("PLAYER \(player) LOST")
-            }
+    var alertDelegate: AlertDelegate?
+    
+    var groupColorOneClosed: Bool = false {
+        didSet { checkIfLost() }
+    }
+    
+    var groupColorTwoClosed: Bool = false {
+        didSet { checkIfLost() }
+    }
+    
+    init(_ player: Player, groupColorOne: UIColor, groupColorTwo: UIColor) {
+        self.player         = player
+        self.groupColorOne  = groupColorOne
+        self.groupColorTwo  = groupColorTwo
+    }
+    
+    func closeGroupColor(_ groupColor: UIColor) {
+        if groupColor == groupColorOne {
+            print(player, "group color one closed")
+            groupColorOneClosed = true
+        }
+        if groupColor == groupColorTwo {
+            print(player, "group color two closed")
+            groupColorTwoClosed = true
         }
     }
-    var colorTwoClosed: Bool = false {
-        didSet {
-            if colorOneClosed && colorTwoClosed {
-                print("PLAYER \(player) LOST")
-            }
-        }
-    }
     
-    init(player: CurrentPlayer, colorOne: UIColor, colorTwo: UIColor) {
-        self.player   = player
-        self.colorOne = colorOne
-        self.colorTwo = colorTwo
-    }
-    
-    static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
-        return lhs.player == rhs.player
-    }
-    
-    mutating func close(_ color: UIColor) {
-        
-        if color == colorOne {
-            colorOneClosed = true
-        } else if color == colorTwo {
-            colorTwoClosed = true
+    private func checkIfLost() {
+        if groupColorOneClosed && groupColorTwoClosed {
+            alertDelegate?.alert(loser: self.player)
         }
     }
     
     func own(_ gameSpace: GameSpace?, switchPlayer: (Bool) -> Void) {
         guard let gameSpace = gameSpace else { return }
+        
         if gameSpace.isSelectable {
             gameSpace.owner = self
             switchPlayer(true)
         } else {
             switchPlayer(false)
         }
+    }
+}
+
+extension GamePlayer: Equatable {
+    
+    static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
+        return lhs.player == rhs.player
     }
 }

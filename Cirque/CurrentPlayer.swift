@@ -8,16 +8,22 @@
 
 import UIKit
 
-enum CurrentPlayer {
+enum Player {
     
-    case player1
-    case player2
+    case one
+    case two
     
-    // The color that displays ownership of a game piece for a given player
-    var color: UIColor {
+    var name: String {
         switch self {
-        case .player1: return .white
-        case .player2: return .black
+        case .one: return "Player 1"
+        case .two: return "Player 2"
+        }
+    }
+    
+    var selectionColor: UIColor {
+        switch self {
+        case .one: return .black
+        case .two: return .white
         }
     }
 }

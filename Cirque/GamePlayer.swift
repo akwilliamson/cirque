@@ -12,44 +12,37 @@ import SpriteKit
 class GamePlayer {
     
     let player: Player
-    let groupColorOne: UIColor
-    let groupColorTwo: UIColor
+    let groupColorOne: GroupColor
+    let groupColorTwo: GroupColor
     
-    var gameEndingDelegate: GameEndingDelegate?
+    var gameSettingsDelegate: GameSettingsDelegate?
     
     var groupColorOneClosed: Bool = false {
-        didSet { checkIfLost() }
+        didSet {
+            checkIfLost()
+        }
     }
     
     var groupColorTwoClosed: Bool = false {
-        didSet { checkIfLost() }
+        didSet {
+            checkIfLost()
+        }
     }
     
-    init(_ player: Player, groupColorOne: UIColor, groupColorTwo: UIColor) {
+    init(_ player: Player, groupColorOne: GroupColor, groupColorTwo: GroupColor) {
         self.player         = player
         self.groupColorOne  = groupColorOne
         self.groupColorTwo  = groupColorTwo
     }
     
-    func own(_ gameSpace: GameSpace?, switchPlayer: (Bool) -> Void) {
-        guard let gameSpace = gameSpace else { return }
-        
-        if gameSpace.isSelectable {
-            gameSpace.owner = self
-            switchPlayer(true)
-        } else {
-            switchPlayer(false)
-        }
-    }
-    
-    func closeGroupColor(_ groupColor: UIColor) {
+    func close(_ groupColor: GroupColor) {
         groupColorOneClosed = groupColor == groupColorOne
         groupColorTwoClosed = groupColor == groupColorTwo
     }
     
     private func checkIfLost() {
         if groupColorOneClosed && groupColorTwoClosed {
-            gameEndingDelegate?.alert(loser: player)
+            gameSettingsDelegate?.alert(loser: player)
         }
     }
 }

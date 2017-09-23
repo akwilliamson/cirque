@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameSetupViewController: UIViewController, GameColoring {
+class GameSetupViewController: UIViewController, GameSpaceColoring {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var showColorsButton: UIButton!
@@ -19,7 +19,7 @@ class GameSetupViewController: UIViewController, GameColoring {
     var playerOne: GamePlayer?
     var playerTwo: GamePlayer?
     
-    var gameColors = [UIColor]()
+    var groupColors = [GroupColor]()
     
     override var preferredFocusEnvironments: [UIFocusEnvironment] {
         return [showColorsButton]
@@ -33,26 +33,26 @@ class GameSetupViewController: UIViewController, GameColoring {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        populateGameColors()
+        populateGroupColors()
     }
     
     @IBAction func showColorsButtonPressed(_ sender: UIButton) {
         
-        guard let groupColorOne = gameColors.randomElement(), let groupColorTwo = gameColors.randomElement() else {
-            print("gameColors array is empty"); return
+        guard let groupColorOne = groupColors.randomElement(), let groupColorTwo = groupColors.randomElement() else {
+            print("groupColors array is empty"); return
         }
         
-        colorOneSelectionView.backgroundColor = groupColorOne
-        colorTwoSelectionView.backgroundColor = groupColorTwo
+        colorOneSelectionView.backgroundColor = groupColorOne.openColor
+        colorTwoSelectionView.backgroundColor = groupColorTwo.openColor
         
         [colorOneSelectionView, colorTwoSelectionView].forEach { $0?.isHidden = false }
         
         switch currentPlayer {
-        case .one:
-            playerOne = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
-        case .two:
-            playerTwo = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
+        case .one: playerOne = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
+        case .two: playerTwo = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
         }
+        
+        showColorsButton.isEnabled = false
     }
     
     @IBAction func continueButtonPressed(_ sender: UIButton) {
@@ -67,6 +67,8 @@ class GameSetupViewController: UIViewController, GameColoring {
         }
         
         setNeedsFocusUpdate()
+        
+        showColorsButton.isEnabled = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

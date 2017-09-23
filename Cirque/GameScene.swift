@@ -8,12 +8,14 @@
 
 import SpriteKit
 
-class GameScene: SKScene, PointConverting {
+class GameScene: SKScene, GameSpaceConverting {
     
-    private var gameBoard: GameBoard
+    private var gameBoard: GameBoard {
+        didSet { gameBoard.gameSpaceDelegate = self }
+    }
     fileprivate var playerOne: GamePlayer
     fileprivate var playerTwo: GamePlayer
-    fileprivate var currentPlayer: GamePlayer
+    fileprivate var currentPlayer: Player
     
     private var touchOrigin: CGPoint?
 
@@ -21,13 +23,12 @@ class GameScene: SKScene, PointConverting {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(size: CGSize, playerOne: GamePlayer, playerTwo: GamePlayer, gameBoard: GameBoard) {
+    init(size: CGSize, gameBoard: GameBoard, playerOne: GamePlayer, playerTwo: GamePlayer) {
+        self.gameBoard = gameBoard
         self.playerOne = playerOne
         self.playerTwo = playerTwo
-        self.currentPlayer = playerOne
-        self.gameBoard = gameBoard
+        self.currentPlayer = .one
         super.init(size: size)
-        self.gameBoard.gamePlayerDelegate = self
     }
     
     override func didMove(to view: SKView) {
@@ -48,15 +49,12 @@ class GameScene: SKScene, PointConverting {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touchOrigin = touchOrigin else { return }
-        guard let touchCurrent = touches.first?.location(in: self) else {
-            return
-        }
+        guard let touchOrigin = touchOrigin, let touchCurrent = touches.first?.location(in: self) else { return }
         
-        let angle = getAngleBetween(point1: touchOrigin, point2: touchCurrent)
-        let distance = getDistanceBetween(point1: touchOrigin, point2: touchCurrent)
+        let angle    = angleBetween(touchOrigin,    and: touchCurrent)
+        let distance = distanceBetween(touchOrigin, and: touchCurrent)
         
-        gameBoard.highlight(atAngle: angle, atDistance: distance)
+        gameBoard.highlightGameSpace(at: angle, and: distance)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -64,13 +62,16 @@ class GameScene: SKScene, PointConverting {
     }
 }
 
-extension GameScene: GamePlayerDelegate {
+extension GameScene: GameSpaceSelecting {
     
-    func own(_ gameSpace: GameSpace?) {
-        currentPlayer.own(gameSpace) { endPlayerTurn in
-            if endPlayerTurn {
-                currentPlayer = currentPlayer == playerOne ? playerTwo : playerOne
-            }
+    func select(_ gameSpace: GameSpace?, complete: (Bool) -> Void) {
+        gameSpace?.set(owner: currentPlayer) { endTurn in
+            if endTurn { swapPlayers() }
+            complete(endTurn)
         }
+    }
+    
+    private func swapPlayers() {
+        currentPlayer = currentPlayer == .one ? .two : .one
     }
 }

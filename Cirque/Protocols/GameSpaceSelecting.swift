@@ -1,12 +1,12 @@
 //
-//  GamePlayerDelegate.swift
+//  GameSpaceSelecting.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 7/13/17.
 //  Copyright © 2017 Aaron Williamson. All rights reserved.
 //
 
-protocol GamePlayerDelegate {
+protocol GameSpaceSelecting {
     
-    func own(_ gameSpace: GameSpace?)
+    func select(_ gameSpace: GameSpace?, complete: (Bool) -> Void)
 }

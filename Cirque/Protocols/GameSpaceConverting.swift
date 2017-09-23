@@ -1,5 +1,5 @@
 //
-//  PointConverting.swift
+//  GameSpaceConverting.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 6/19/17.
@@ -8,15 +8,15 @@
 
 import CoreGraphics
 
-protocol PointConverting {
+protocol GameSpaceConverting {
     
-    func getAngleBetween(point1: CGPoint, point2: CGPoint) -> CGFloat
-    func getDistanceBetween(point1: CGPoint, point2: CGPoint) -> CGFloat
+    func angleBetween(_ point1: CGPoint, and point2: CGPoint) -> CGFloat
+    func distanceBetween(_ point1: CGPoint, and point2: CGPoint) -> CGFloat
 }
 
-extension PointConverting {
+extension GameSpaceConverting {
     
-    func getAngleBetween(point1: CGPoint, point2: CGPoint) -> CGFloat {
+    func angleBetween(_ point1: CGPoint, and point2: CGPoint) -> CGFloat {
         let diffX = point2.x - point1.x
         let diffY = point2.y - point1.y
         let radians = atan2(diffY, diffX)
@@ -24,11 +24,11 @@ extension PointConverting {
         return radians >= 0 ? radians : radians + .tau
     }
     
-    func getDistanceBetween(point1: CGPoint, point2: CGPoint) -> CGFloat {
+    func distanceBetween(_ point1: CGPoint, and point2: CGPoint) -> CGFloat {
         let diffX = point1.x - point2.x
         let diffY = point1.y - point2.y
         let distance = hypot(diffX, diffY)
-        // 600.0 = scaled down Apple TV remote travel, arbitrary
+        // 600.0 == scaled down Apple TV remote travel, arbitrary
         return min(distance/600.0, 1.0)
     }
 }

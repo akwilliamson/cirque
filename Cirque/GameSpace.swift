@@ -12,34 +12,32 @@ import SpriteKit
 class GameSpace: SKShapeNode {
     
     var groupNum: Int = 0
-    var ringNum: Int = 0
-    
-    var owner: GamePlayer? {
+    var ringNum: Int  = 0
+    var owner: Player? {
         didSet {
-            select()
-            addOwnerChip()
+            if let owner = owner {
+                select()
+                addOwner(owner.selectionColor)
+            } else {
+                reopen()
+            }
         }
     }
     
     var state: GameSpaceState = .open {
         didSet {
-            fillColor = stateColor
+            fillColor = spaceColorForState()
         }
     }
-    
-    var isSelectable: Bool {
+    var isSelectable: Bool  {
         return state != .selected && state != .closed
     }
+    var isAlive: Bool {
+        return state != .closed
+    }
     
-    var stateColor: UIColor {
-        switch state {
-        case .open:
-            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0)
-        case .highlighted, .selected:
-            return UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.8, brightness: 1.0, alpha: 1.0)
-        case .closed:
-            return UIColor.gray
-        }
+    var groupColor: GroupColor {
+        return GroupColor(rawValue: CGFloat(groupNum)) ?? .none
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,39 +54,64 @@ class GameSpace: SKShapeNode {
         self.init(path: path)
         self.groupNum = groupNum
         self.ringNum = ringNum
-        self.fillColor = stateColor
+        self.fillColor = spaceColorForState()
+    }
+    
+    func spaceColorForState() -> UIColor {
+        switch state {
+        case .open:        return groupColor.openColor
+        case .highlighted: return groupColor.highlightColor
+        case .selected:    return groupColor.highlightColor
+        case .closed:      return groupColor.closedColor
+        }
+    }
+    
+    func open() {
+        if isSelectable {
+            state = .open
+        }
     }
     
     func highlight() {
-        if isSelectable { state = .highlighted }
+        if isSelectable {
+            state = .highlighted
+        }
     }
     
     func select() {
-        state = .selected
-    }
-    
-    func reopen() {
-        if isSelectable { state = .open }
-    }
-    
-    func clearOwner() {
-        children.forEach { $0.removeFromParent() }
-        state = .open
+        if isSelectable {
+            state = .selected
+        }
     }
     
     func close() {
-        let groupColor = UIColor(hue: CGFloat(groupNum)/8.0, saturation: 0.5, brightness: 1.0, alpha: 1.0)
-        owner?.closeGroupColor(groupColor)
-        state = .closed
+        if isAlive {
+            state = .closed
+        }
     }
     
-    func addOwnerChip() {
-        guard let owner = owner else { return }
+    func reopen() {
+        if isAlive {
+            state = .open
+            children.forEach { $0.removeFromParent() }
+        }
+    }
+    
+    func set(owner: Player, complete: (Bool) -> Void) {
+        if isSelectable {
+            self.owner = owner
+            complete(true)
+        } else {
+            complete(false)
+        }
+    }
+    
+    func addOwner(_ selectionColor: UIColor) {
         let origin = CGPoint(x: frame.center.x - 15, y: frame.center.y - 15)
         let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
         let path = UIBezierPath(ovalIn: rect).cgPath
         let node = SKShapeNode(path: path)
-        node.fillColor = owner.player.selectionColor
+        node.fillColor = selectionColor
         addChild(node)
     }
 }

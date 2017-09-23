@@ -11,15 +11,13 @@ import SpriteKit
 
 class GameSceneViewController: UIViewController {
     
-    private var gameScene: GameScene?
-    
     @IBOutlet weak var winnerLabel: UILabel!
     
     var playerOne: GamePlayer? {
-        didSet { playerOne?.gameEndingDelegate = self }
+        didSet { playerOne?.gameSettingsDelegate = self }
     }
     var playerTwo: GamePlayer? {
-        didSet { playerTwo?.gameEndingDelegate = self }
+        didSet { playerTwo?.gameSettingsDelegate = self }
     }
     
     override func viewDidLoad() {
@@ -27,36 +25,36 @@ class GameSceneViewController: UIViewController {
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
         
-        createGameScene(numberOfPlayers: 2, numberOfGroups: 8, numberOfRings: 5)
-        
-        skView.presentScene(gameScene)
+        createGameScene(playerNum: 2, groupNum: 8, ringNum: 5) { gameScene in
+            skView.presentScene(gameScene)
+        }
     }
     
-    private func createGameScene(numberOfPlayers: Int, numberOfGroups: Int, numberOfRings: Int) {
-        guard let playerOne = playerOne, let playerTwo = playerTwo else { return }
+    private func createGameScene(playerNum: Int, groupNum: Int, ringNum: Int, complete: (GameScene) -> Void) {
         
-        let gameBoard = createGameBoard(numberOfGroups: numberOfGroups, numberOfRings: numberOfRings)
-        gameScene = GameScene(size: view.frame.size, playerOne: playerOne, playerTwo: playerTwo, gameBoard: gameBoard)
+        let gameBoard = createGameBoard(groupNum: groupNum, ringNum: ringNum)
+        
+        if let playerOne = playerOne, let playerTwo = playerTwo {
+            complete(GameScene(size: view.frame.size, gameBoard: gameBoard, playerOne: playerOne, playerTwo: playerTwo))
+        }
     }
     
-    private func createGameBoard(numberOfGroups: Int, numberOfRings: Int) -> GameBoard {
-        return GameBoard(container: view.frame, groups: numberOfGroups, rings: numberOfRings)
+    private func createGameBoard(groupNum: Int, ringNum: Int) -> GameBoard {
+        return GameBoard(container: view.frame, groups: groupNum, rings: ringNum)
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        gameScene?.pressesEnded(presses, with: event)
+        (view as? SKView)?.scene?.pressesEnded(presses, with: event)
     }
 }
 
-extension GameSceneViewController: GameEndingDelegate {
+extension GameSceneViewController: GameSettingsDelegate {
     
     func alert(loser: Player) {
         
         switch loser {
-        case .one:
-            winnerLabel.text = "Player 2 won!"
-        case .two:
-            winnerLabel.text = "Player 1 won!"
+        case .one: winnerLabel.text = "Player 2 won!"
+        case .two: winnerLabel.text = "Player 1 won!"
         }
         winnerLabel.sizeToFit()
     }

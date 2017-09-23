@@ -19,14 +19,10 @@ struct GameSpaceShaper {
 // MARK: Variable
     
     var startAngle: CGFloat {
-        didSet {
-            endAngle = startAngle + length
-        }
+        didSet { endAngle = startAngle + length }
     }
     var startRadius: CGFloat {
-        didSet {
-            endRadius = startRadius - width
-        }
+        didSet { endRadius = startRadius - width }
     }
     var endAngle: CGFloat
     var endRadius: CGFloat

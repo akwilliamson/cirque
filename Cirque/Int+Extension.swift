@@ -25,4 +25,12 @@ extension Int {
     var decremented: Int {
         return index - 1
     }
+    
+    var doubleIncremented: Int {
+        return index + 2
+    }
+    
+    var doubleDecremented: Int {
+        return index - 2
+    }
 }

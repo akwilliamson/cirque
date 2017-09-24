@@ -9,4 +9,5 @@
 protocol GameSpaceSelecting {
     
     func select(_ gameSpace: GameSpace?, complete: (Bool) -> Void)
+    func close(_ gameSpaces: [GameSpace])
 }

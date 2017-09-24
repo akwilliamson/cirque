@@ -15,18 +15,11 @@ class GamePlayer {
     let groupColorOne: GroupColor
     let groupColorTwo: GroupColor
     
-    var gameSettingsDelegate: GameSettingsDelegate?
+    var groupColorOneClosed: Bool = false
+    var groupColorTwoClosed: Bool = false
     
-    var groupColorOneClosed: Bool = false {
-        didSet {
-            checkIfLost()
-        }
-    }
-    
-    var groupColorTwoClosed: Bool = false {
-        didSet {
-            checkIfLost()
-        }
+    var playerLost: Bool {
+        return groupColorOneClosed && groupColorTwoClosed
     }
     
     init(_ player: Player, groupColorOne: GroupColor, groupColorTwo: GroupColor) {
@@ -35,21 +28,13 @@ class GamePlayer {
         self.groupColorTwo  = groupColorTwo
     }
     
-    func close(_ groupColor: GroupColor) {
-        groupColorOneClosed = groupColor == groupColorOne
-        groupColorTwoClosed = groupColor == groupColorTwo
+    func owns(_ closedColor: GroupColor?) -> Bool {
+        return groupColorOne == closedColor || groupColorTwo == closedColor
     }
     
-    private func checkIfLost() {
-        if groupColorOneClosed && groupColorTwoClosed {
-            gameSettingsDelegate?.alert(loser: player)
-        }
-    }
-}
-
-extension GamePlayer: Equatable {
-    
-    static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
-        return lhs.player == rhs.player
+    func close(_ groupColor: GroupColor?, complete: (Bool) -> Void) {
+        if groupColor == groupColorOne { groupColorOneClosed = true }
+        if groupColor == groupColorTwo { groupColorTwoClosed = true }
+        complete(playerLost)
     }
 }

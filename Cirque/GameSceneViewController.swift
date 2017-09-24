@@ -13,29 +13,28 @@ class GameSceneViewController: UIViewController {
     
     @IBOutlet weak var winnerLabel: UILabel!
     
-    var playerOne: GamePlayer? {
-        didSet { playerOne?.gameSettingsDelegate = self }
-    }
-    var playerTwo: GamePlayer? {
-        didSet { playerTwo?.gameSettingsDelegate = self }
-    }
+    var playerOne: GamePlayer?
+    var playerTwo: GamePlayer?
+    var gameScene: GameScene?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
         
-        createGameScene(playerNum: 2, groupNum: 8, ringNum: 5) { gameScene in
-            skView.presentScene(gameScene)
-        }
+        gameScene = createGameScene(groupNum: 8, ringNum: 5)
+        gameScene?.gameSceneDelegate = self
+        skView.presentScene(gameScene)
     }
     
-    private func createGameScene(playerNum: Int, groupNum: Int, ringNum: Int, complete: (GameScene) -> Void) {
+    private func createGameScene(groupNum: Int, ringNum: Int) -> GameScene? {
         
         let gameBoard = createGameBoard(groupNum: groupNum, ringNum: ringNum)
         
         if let playerOne = playerOne, let playerTwo = playerTwo {
-            complete(GameScene(size: view.frame.size, gameBoard: gameBoard, playerOne: playerOne, playerTwo: playerTwo))
+            return GameScene(size: view.frame.size, gameBoard: gameBoard, playerOne: playerOne, playerTwo: playerTwo)
+        } else {
+            return nil
         }
     }
     
@@ -48,14 +47,9 @@ class GameSceneViewController: UIViewController {
     }
 }
 
-extension GameSceneViewController: GameSettingsDelegate {
+extension GameSceneViewController: GameSceneDelegate {
     
-    func alert(loser: Player) {
-        
-        switch loser {
-        case .one: winnerLabel.text = "Player 2 won!"
-        case .two: winnerLabel.text = "Player 1 won!"
-        }
-        winnerLabel.sizeToFit()
+    func gameEnded(winner: Player) {
+        print("the winner is...\(winner)")
     }
 }

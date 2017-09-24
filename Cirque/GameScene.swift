@@ -17,6 +17,8 @@ class GameScene: SKScene, GameSpaceConverting {
     
     private var touchOrigin: CGPoint?
 
+    var gameSceneDelegate: GameSceneDelegate?
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -67,6 +69,22 @@ extension GameScene: GameSpaceSelecting {
         gameSpace?.set(owner: currentPlayer) { endTurn in
             if endTurn { swapPlayers() }
             complete(endTurn)
+        }
+    }
+    
+    func close(_ gameSpaces: [GameSpace]) {
+        gameSpaces.forEach { $0.close() }
+        let groupColor = gameSpaces.first?.groupColor
+        
+        if playerOne.owns(groupColor) {
+            playerOne.close(groupColor) { playerOneLost in
+                if playerOneLost { gameSceneDelegate?.gameEnded(winner: .two) }
+            }
+        }
+        if playerTwo.owns(groupColor) {
+            playerTwo.close(groupColor) { playerTwoLost in
+                if playerTwoLost { gameSceneDelegate?.gameEnded(winner: .one) }
+            }
         }
     }
     

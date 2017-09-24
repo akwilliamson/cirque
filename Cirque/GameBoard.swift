@@ -66,8 +66,8 @@ class GameBoard: SKNode {
         let groupGameSpaces = gameSpaces[groupNum.index]
         let groupGameSpaceStates = groupGameSpaces.map { $0.state }
         
-        if groupGameSpaceStates.contains(.open) == false {
-            groupGameSpaces.forEach { $0.close() }
+        if !groupGameSpaceStates.contains(.open) {
+            gameSpaceDelegate?.close(groupGameSpaces)
         }
     }
     

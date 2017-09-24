@@ -10,9 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene, GameSpaceConverting {
     
-    private var gameBoard: GameBoard {
-        didSet { gameBoard.gameSpaceDelegate = self }
-    }
+    private var gameBoard: GameBoard
     fileprivate var playerOne: GamePlayer
     fileprivate var playerTwo: GamePlayer
     fileprivate var currentPlayer: Player
@@ -29,6 +27,7 @@ class GameScene: SKScene, GameSpaceConverting {
         self.playerTwo = playerTwo
         self.currentPlayer = .one
         super.init(size: size)
+        self.gameBoard.gameSpaceDelegate = self
     }
     
     override func didMove(to view: SKView) {

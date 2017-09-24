@@ -14,14 +14,7 @@ class GameSpace: SKShapeNode {
     var groupNum: Int = 0
     var ringNum: Int  = 0
     var owner: Player? {
-        didSet {
-            if let owner = owner {
-                select()
-                addOwner(owner.selectionColor)
-            } else {
-                reopen()
-            }
-        }
+        didSet { if let owner = owner { select(with: owner.color) } else { reopen() } }
     }
     
     var state: GameSpaceState = .open {
@@ -59,9 +52,9 @@ class GameSpace: SKShapeNode {
     
     func spaceColorForState() -> UIColor {
         switch state {
-        case .open:        return groupColor.openColor
+        case .open:        return groupColor.regularColor
         case .highlighted: return groupColor.highlightColor
-        case .selected:    return groupColor.highlightColor
+        case .selected:    return groupColor.regularColor
         case .closed:      return groupColor.closedColor
         }
     }
@@ -78,9 +71,17 @@ class GameSpace: SKShapeNode {
         }
     }
     
-    func select() {
+    func select(with ownerColor: UIColor) {
         if isSelectable {
             state = .selected
+            addOwner(ownerColor)
+        }
+    }
+    
+    func reopen() {
+        if isAlive {
+            state = .open
+            removeOwner()
         }
     }
     
@@ -90,28 +91,21 @@ class GameSpace: SKShapeNode {
         }
     }
     
-    func reopen() {
-        if isAlive {
-            state = .open
-            children.forEach { $0.removeFromParent() }
-        }
-    }
-    
-    func set(owner: Player, complete: (Bool) -> Void) {
-        if isSelectable {
-            self.owner = owner
-            complete(true)
-        } else {
-            complete(false)
-        }
+    func set(owner: Player?, complete: (Bool) -> Void) {
+        self.owner = owner
+        complete(state == .selected)
     }
     
     func addOwner(_ selectionColor: UIColor) {
-        let origin = CGPoint(x: frame.center.x - 15, y: frame.center.y - 15)
-        let rect = CGRect(origin: origin, size: CGSize(width: 30, height: 30))
-        let path = UIBezierPath(ovalIn: rect).cgPath
-        let node = SKShapeNode(path: path)
-        node.fillColor = selectionColor
+        let name = selectionColor == .white ? "white" : "black"
+        let node = SKSpriteNode(imageNamed: name)
+        node.size = CGSize(width: 30, height: 30)
+        node.position = CGPoint(x: frame.center.x, y: frame.center.y)
+        
         addChild(node)
+    }
+    
+    func removeOwner() {
+        children.forEach { $0.removeFromParent() }
     }
 }

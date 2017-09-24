@@ -18,6 +18,6 @@ protocol GameSpaceColoring {
 extension GameSpaceColoring where Self: GameSetupViewController {
     
     func populateGroupColors() {
-        self.groupColors = [.gold, .lime, .forest, .cyan, .ocean, .royal, .magenta, .fire]
+        self.groupColors = [.green, .yellow, .orange, .red, .pink, .purple, .blue, .brown]
     }
 }

@@ -42,8 +42,8 @@ class GameSetupViewController: UIViewController, GameSpaceColoring {
             print("groupColors array is empty"); return
         }
         
-        colorOneSelectionView.backgroundColor = groupColorOne.openColor
-        colorTwoSelectionView.backgroundColor = groupColorTwo.openColor
+        colorOneSelectionView.backgroundColor = groupColorOne.regularColor
+        colorTwoSelectionView.backgroundColor = groupColorTwo.regularColor
         
         [colorOneSelectionView, colorTwoSelectionView].forEach { $0?.isHidden = false }
         

@@ -20,7 +20,7 @@ enum Player {
         }
     }
     
-    var selectionColor: UIColor {
+    var color: UIColor {
         switch self {
         case .one: return .black
         case .two: return .white

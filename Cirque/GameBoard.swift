@@ -40,7 +40,7 @@ class GameBoard: SKNode {
     init(container: CGRect, groups: Int, rings: Int) {
         self.container = container
         self.center    = container.center
-        self.radius    = container.radius(0.4) // % of superview's smallest side length. Arbitrary value
+        self.radius    = container.radius(0.48) // % of superview's smallest side length. Arbitrary value
         self.groups    = groups
         self.rings     = rings
         super.init()
@@ -86,7 +86,7 @@ class GameBoard: SKNode {
         let counterClockwiseSpace       = gameSpaces[wrapping: groupNum.decremented]      [wrapping: ringNum.index]
         let doubleCounterClockwiseSpace = gameSpaces[wrapping: groupNum.doubleDecremented][wrapping: ringNum.index]
         
-        if doubleCounterClockwiseSpace.owner == selectedSpace.owner { // Player owns a counter-clockwise sandwish
+        if doubleCounterClockwiseSpace.owner == selectedSpace.owner { // Player owns a counter-clockwise sandwich
             if counterClockwiseSpace.owner != nil && counterClockwiseSpace.owner != selectedSpace.owner {
                 counterClockwiseSpace.reopen()
             }

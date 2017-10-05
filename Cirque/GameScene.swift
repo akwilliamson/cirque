@@ -66,6 +66,7 @@ class GameScene: SKScene, GameSpaceConverting {
 extension GameScene: GameSpaceSelecting {
     
     func select(_ gameSpace: GameSpace?, complete: (Bool) -> Void) {
+        
         gameSpace?.set(owner: currentPlayer) { endTurn in
             if endTurn { swapPlayers() }
             complete(endTurn)
@@ -73,7 +74,9 @@ extension GameScene: GameSpaceSelecting {
     }
     
     func close(_ gameSpaces: [GameSpace]) {
+        
         gameSpaces.forEach { $0.close() }
+        
         let groupColor = gameSpaces.first?.groupColor
         
         if playerOne.owns(groupColor) {

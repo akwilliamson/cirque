@@ -10,7 +10,7 @@ import CoreGraphics
 import SpriteKit
 
 class GameSpace: SKShapeNode {
-    
+
     var groupNum: Int = 0
     var ringNum: Int  = 0
     var owner: Player? {
@@ -99,9 +99,8 @@ class GameSpace: SKShapeNode {
     func addOwner(_ selectionColor: UIColor) {
         let name = selectionColor == .white ? "white" : "black"
         let node = SKSpriteNode(imageNamed: name)
-        node.size = CGSize(width: 30, height: 30)
-        node.position = CGPoint(x: frame.center.x, y: frame.center.y)
-        
+        node.size = CGSize(width: 50, height: 50)
+        node.position = frame.center
         addChild(node)
     }
     

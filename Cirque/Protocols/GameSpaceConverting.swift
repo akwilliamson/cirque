@@ -29,6 +29,6 @@ extension GameSpaceConverting {
         let diffY = point1.y - point2.y
         let distance = hypot(diffX, diffY)
         // 600.0 == scaled down Apple TV remote travel, arbitrary
-        return min(distance/600.0, 1.0)
+        return min(distance/900.0, 1.0)
     }
 }

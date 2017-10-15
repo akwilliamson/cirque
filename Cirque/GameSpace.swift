@@ -9,53 +9,47 @@
 import CoreGraphics
 import SpriteKit
 
-class GameSpace: SKShapeNode {
+class GameSpace: SKSpriteNode {
 
-    var groupNum: Int = 0
+    var wedgeNum: Int = 0
     var ringNum: Int  = 0
     var owner: Player? {
         didSet { if let owner = owner { select(with: owner.color) } else { reopen() } }
     }
     
-    var state: GameSpaceState = .open {
+    var state: SpaceState = .open {
         didSet {
-            fillColor = spaceColorForState()
+            color = spaceColorForState()
         }
     }
     var isSelectable: Bool  {
-        return state != .selected && state != .closed
+        return state != .closed && state != .selected
     }
     var isAlive: Bool {
         return state != .closed
     }
     
-    var groupColor: GroupColor {
-        return GroupColor(rawValue: CGFloat(groupNum)) ?? .none
+    var wedgeColor: WedgeColor {
+        return WedgeColor(rawValue: CGFloat(wedgeNum)) ?? .none
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(path: CGPath) {
-        super.init()
-        self.path = path
-        self.isUserInteractionEnabled = true
-    }
-    
-    convenience init(path: CGPath, groupNum: Int, ringNum: Int) {
-        self.init(path: path)
-        self.groupNum = groupNum
+    init(texture: SKTexture, wedgeNum: Int, ringNum: Int) {
+        super.init(texture: texture, color: .clear, size: texture.size())
+        self.wedgeNum = wedgeNum
         self.ringNum = ringNum
-        self.fillColor = spaceColorForState()
+        self.color = spaceColorForState()
     }
     
     func spaceColorForState() -> UIColor {
         switch state {
-        case .open:        return groupColor.regularColor
-        case .highlighted: return groupColor.highlightColor
-        case .selected:    return groupColor.regularColor
-        case .closed:      return groupColor.closedColor
+        case .open:        return wedgeColor.regularColor
+        case .highlighted: return wedgeColor.highlightColor
+        case .selected:    return wedgeColor.regularColor
+        case .closed:      return wedgeColor.closedColor
         }
     }
     

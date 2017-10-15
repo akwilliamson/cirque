@@ -11,59 +11,54 @@ import SpriteKit
 
 class GameBoard: SKNode {
     
-    let container: CGRect
-    let center: CGPoint
-    let radius: CGFloat
-    let groups: Int
-    let rings: Int
+    typealias RangeDict = [Int: ClosedRange<CGFloat>]
     
-    // Spacing between each concentric ring. Arbitrary value
-    let ringMargin: CGFloat = 5
-    // % of the radius devoted to the open center of the game board. Arbitrary value
-    let openCenterPercentageOfRadius: CGFloat = 0.1
-    
-    var gameSpaces = [[GameSpace]]()
-    var groupMapping = [Int: ClosedRange<CGFloat>]()
-    var ringMapping = [Int: ClosedRange<CGFloat>]()
+    let radius: CGFloat            // % of superview's smallest side
+    var wedgeSpaces: [[GameSpace]] // Contains all spaces, grouped by wedge
+    var wedgeRanges: RangeDict     // The range of each angle within the game board devoted to each group
+    var ringRanges: RangeDict      // The range of each width within the game board devoted to each ring
     
     var focusedGameSpace: GameSpace?
-    
-    var lengthForSpace: CGFloat { return .tau/groups.cg }
-    var widthForSpace:  CGFloat { return radius/rings.cg - ringMargin }
-    
-    var gameSpaceDelegate: GameSpaceSelecting?
+    var gameSpaceDelegate: SpaceSelecting?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(container: CGRect, groups: Int, rings: Int) {
-        self.container = container
-        self.center    = container.center
-        self.radius    = container.radius(0.48) // % of superview's smallest side length. Arbitrary value
-        self.groups    = groups
-        self.rings     = rings
+    init(radius: CGFloat, spaces: [[GameSpace]], wedgeRanges: RangeDict, ringRanges: RangeDict) {
+        self.radius      = radius
+        self.wedgeSpaces = spaces
+        self.wedgeRanges = wedgeRanges
+        self.ringRanges  = ringRanges
         super.init()
     }
     
-    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        guard let gameSpace = focusedGameSpace else { return }
-        
-        gameSpaceDelegate?.select(gameSpace) { selected in
-            if selected {
-                let groupNum = gameSpace.groupNum
-                let ringNum  = gameSpace.ringNum
-                checkGroupAliveState(for: groupNum)
-                checkClockwiseSandwich(gameSpace, groupNum: groupNum, ringNum: ringNum)
-                checkCounterClockwiseSandwich(gameSpace, groupNum: groupNum, ringNum: ringNum)
-            } else {
-                return
+    func populateSpaces() {
+        wedgeSpaces.forEach { wedge in
+            wedge.forEach { space in
+                addChild(space)
             }
         }
     }
     
-    private func checkGroupAliveState(for groupNum: Int) {
-        let groupGameSpaces = gameSpaces[groupNum.index]
+    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        selectGameSpace()
+    }
+    
+    private func selectGameSpace() {
+        guard let gameSpace = focusedGameSpace else { return }
+        
+        gameSpaceDelegate?.select(focusedGameSpace) { selected in
+            if selected {
+                checkGroupIsAlive(for: gameSpace.wedgeNum)
+                checkSqueeze(rotating: .clockwise, for: gameSpace)
+                checkSqueeze(rotating: .counterClockwise, for: gameSpace)
+            }
+        }
+    }
+    
+    private func checkGroupIsAlive(for groupNum: Int) {
+        let groupGameSpaces = wedgeSpaces[groupNum.index]
         let groupGameSpaceStates = groupGameSpaces.map { $0.state }
         
         if !groupGameSpaceStates.contains(.open) {
@@ -71,73 +66,49 @@ class GameBoard: SKNode {
         }
     }
     
-    private func checkClockwiseSandwich(_ selectedSpace: GameSpace, groupNum: Int, ringNum: Int) {
-        let clockwiseSpace       = gameSpaces[wrapping: groupNum.incremented]      [wrapping: ringNum.index]
-        let doubleClockwiseSpace = gameSpaces[wrapping: groupNum.doubleIncremented][wrapping: ringNum.index]
+    private func checkSqueeze(rotating: Rotation, for space: GameSpace) {
         
-        if doubleClockwiseSpace.owner == selectedSpace.owner { // Player owns a clockwise sandwish
-            if clockwiseSpace.owner != nil && clockwiseSpace.owner != selectedSpace.owner {
-                clockwiseSpace.reopen()
-            }
+        let surroundingSpace: GameSpace
+        
+        switch rotating {
+        case .clockwise:
+            surroundingSpace = wedgeSpaces[wrapping: space.wedgeNum.doubleIncremented][wrapping: space.ringNum.index]
+        case .counterClockwise:
+            surroundingSpace = wedgeSpaces[wrapping: space.wedgeNum.doubleDecremented][wrapping: space.ringNum.index]
         }
-    }
-    
-    private func checkCounterClockwiseSandwich(_ selectedSpace: GameSpace, groupNum: Int, ringNum: Int) {
-        let counterClockwiseSpace       = gameSpaces[wrapping: groupNum.decremented]      [wrapping: ringNum.index]
-        let doubleCounterClockwiseSpace = gameSpaces[wrapping: groupNum.doubleDecremented][wrapping: ringNum.index]
         
-        if doubleCounterClockwiseSpace.owner == selectedSpace.owner { // Player owns a counter-clockwise sandwich
-            if counterClockwiseSpace.owner != nil && counterClockwiseSpace.owner != selectedSpace.owner {
-                counterClockwiseSpace.reopen()
-            }
-        }
-    }
-    
-    func generateSpaces() {
-        
-        var gameSpaceShaper = GameSpaceShaper(center: center, length: lengthForSpace, width: widthForSpace, startRadius: radius)
-        
-        for groupNum in 1...groups {
-            gameSpaces.append(Array())
-            groupMapping[groupNum.index] = (gameSpaceShaper.startAngle...gameSpaceShaper.endAngle)
+        // Player owns surrounding spaces, squeeze in effect
+        if surroundingSpace.owner == space.owner {
             
-            for ringNum in 1...rings {
-                if ringMapping[ringNum.index] == nil {
-                    ringMapping[ringNum.index] = (gameSpaceShaper.endRadius...gameSpaceShaper.startRadius)
-                }
-                let gameSpace = GameSpace(path: gameSpaceShaper.path, groupNum: groupNum, ringNum: ringNum)
-                gameSpaces[groupNum.index].append(gameSpace)
-                addChild(gameSpace)
-                gameSpaceShaper.startRadius = incrementStartRadiusFor(ringNum.cg)
+            let squeezedSpace: GameSpace
+            
+            switch rotating {
+            case .clockwise:
+                squeezedSpace = wedgeSpaces[wrapping: space.wedgeNum.incremented][wrapping: space.ringNum.index]
+            case .counterClockwise:
+                squeezedSpace = wedgeSpaces[wrapping: space.wedgeNum.decremented][wrapping: space.ringNum.index]
             }
-            gameSpaceShaper.startRadius = radius
-            gameSpaceShaper.startAngle = incrementStartAngleFor(groupNum.cg)
+            
+            // Space being squeezed belongs to opponent, reopen
+            if squeezedSpace.owner != space.owner && squeezedSpace.owner != nil {
+                squeezedSpace.reopen()
+            }
         }
-    }
-    
-    private func incrementStartAngleFor(_ groupNum: CGFloat) -> CGFloat {
-        return groupNum/groups.cg * .tau // 1/X % of circumference
-    }
-    
-    private func incrementStartRadiusFor(_ ringNum: CGFloat) -> CGFloat {
-        let percentageOfRadiusForRing = 1 - ringNum/rings.cg
-        let percentageOfShrinkForRing = openCenterPercentageOfRadius * ringNum/rings.cg
-        return radius * (percentageOfRadiusForRing + percentageOfShrinkForRing)
     }
 }
 
-extension GameBoard: GameSpaceHighlighting {
+extension GameBoard: SpaceHighlighting {
     
-    func highlightGameSpace(at angle: CGFloat, and distance: CGFloat) {
+    func highlightSpace(at angle: CGFloat, and distance: CGFloat) {
         
-        let groupNum = groupMapping.values.first { $0.contains(angle) }
-        let ringNum  =  ringMapping.values.first { $0.contains(radius * distance) }
+        let groupNum = wedgeRanges.values.first { $0.contains(angle) }
+        let ringNum  =  ringRanges.values.first { $0.contains(radius * distance) }
         
         guard let group = groupNum, let ring = ringNum else { return }
         
-        if let groupIndex = groupMapping.keys(for: group).first, let ringIndex = ringMapping.keys(for: ring).first {
+        if let wedgeIndex = wedgeRanges.keys(for: group).first, let ringIndex = ringRanges.keys(for: ring).first {
             focusedGameSpace?.open()
-            focusedGameSpace = gameSpaces[groupIndex][ringIndex]
+            focusedGameSpace = wedgeSpaces[wedgeIndex][ringIndex]
             focusedGameSpace?.highlight()
         }
     }

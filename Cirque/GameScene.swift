@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, GameSpaceConverting {
+class GameScene: SKScene, SpaceMapping {
     
     private var gameBoard: GameBoard
     fileprivate var playerOne: GamePlayer
@@ -33,8 +33,8 @@ class GameScene: SKScene, GameSpaceConverting {
     }
     
     override func didMove(to view: SKView) {
-        gameBoard.generateSpaces()
         addChild(gameBoard)
+        gameBoard.populateSpaces()
     }
     
 // MARK: Presses
@@ -55,7 +55,7 @@ class GameScene: SKScene, GameSpaceConverting {
         let angle    = angleBetween(touchOrigin,    and: touchCurrent)
         let distance = distanceBetween(touchOrigin, and: touchCurrent)
         
-        gameBoard.highlightGameSpace(at: angle, and: distance)
+        gameBoard.highlightSpace(at: angle, and: distance)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -63,7 +63,7 @@ class GameScene: SKScene, GameSpaceConverting {
     }
 }
 
-extension GameScene: GameSpaceSelecting {
+extension GameScene: SpaceSelecting {
     
     func select(_ gameSpace: GameSpace?, complete: (Bool) -> Void) {
         
@@ -77,15 +77,15 @@ extension GameScene: GameSpaceSelecting {
         
         gameSpaces.forEach { $0.close() }
         
-        let groupColor = gameSpaces.first?.groupColor
+        let wedgeColor = gameSpaces.first?.wedgeColor
         
-        if playerOne.owns(groupColor) {
-            playerOne.close(groupColor) { playerOneLost in
+        if playerOne.owns(wedgeColor) {
+            playerOne.close(wedgeColor) { playerOneLost in
                 if playerOneLost { gameSceneDelegate?.gameEnded(winner: .two) }
             }
         }
-        if playerTwo.owns(groupColor) {
-            playerTwo.close(groupColor) { playerTwoLost in
+        if playerTwo.owns(wedgeColor) {
+            playerTwo.close(wedgeColor) { playerTwoLost in
                 if playerTwoLost { gameSceneDelegate?.gameEnded(winner: .one) }
             }
         }

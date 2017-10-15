@@ -1,5 +1,5 @@
 //
-//  GameSpaceHighlighting.swift
+//  SpaceHighlighting.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 6/19/17.
@@ -8,7 +8,7 @@
 
 import CoreGraphics
 
-protocol GameSpaceHighlighting {
+protocol SpaceHighlighting {
     
-    func highlightGameSpace(at angle: CGFloat, and distance: CGFloat)
+    func highlightSpace(at angle: CGFloat, and distance: CGFloat)
 }

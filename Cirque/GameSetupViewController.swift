@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameSetupViewController: UIViewController, GameSpaceColoring {
+class GameSetupViewController: UIViewController {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var showColorsButton: UIButton!
@@ -19,7 +19,7 @@ class GameSetupViewController: UIViewController, GameSpaceColoring {
     var playerOne: GamePlayer?
     var playerTwo: GamePlayer?
     
-    var groupColors = [GroupColor]()
+    var wedgeColors: [WedgeColor] = [.green, .yellow, .orange, .red, .pink, .purple, .blue, .brown]
     
     override var preferredFocusEnvironments: [UIFocusEnvironment] {
         return [showColorsButton]
@@ -31,25 +31,20 @@ class GameSetupViewController: UIViewController, GameSpaceColoring {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        populateGroupColors()
-    }
-    
     @IBAction func showColorsButtonPressed(_ sender: UIButton) {
         
-        guard let groupColorOne = groupColors.randomElement(), let groupColorTwo = groupColors.randomElement() else {
-            print("groupColors array is empty"); return
+        guard let wedgeColorOne = wedgeColors.randomElement(), let wedgeColorTwo = wedgeColors.randomElement() else {
+            print("wedgeColors array is empty"); return
         }
         
-        colorOneSelectionView.backgroundColor = groupColorOne.regularColor
-        colorTwoSelectionView.backgroundColor = groupColorTwo.regularColor
+        colorOneSelectionView.backgroundColor = wedgeColorOne.regularColor
+        colorTwoSelectionView.backgroundColor = wedgeColorTwo.regularColor
         
         [colorOneSelectionView, colorTwoSelectionView].forEach { $0?.isHidden = false }
         
         switch currentPlayer {
-        case .one: playerOne = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
-        case .two: playerTwo = GamePlayer(currentPlayer, groupColorOne: groupColorOne, groupColorTwo: groupColorTwo)
+        case .one: playerOne = GamePlayer(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
+        case .two: playerTwo = GamePlayer(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
         }
         
         showColorsButton.isEnabled = false

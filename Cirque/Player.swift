@@ -1,5 +1,5 @@
 //
-//  CurrentPlayer.swift
+//  Player.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 8/16/17.

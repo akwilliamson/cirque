@@ -1,5 +1,5 @@
 //
-//  GroupColor.swift
+//  WedgeColor.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 8/23/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum GroupColor: CGFloat {
+enum WedgeColor: CGFloat {
 
     case none
     case blue

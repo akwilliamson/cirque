@@ -22,14 +22,14 @@ class GameSceneViewController: UIViewController {
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
         
-        gameScene = createGameScene(groupNum: 8, ringNum: 5)
+        gameScene = createGameScene(wedges: 8, rings: 5)
         gameScene?.gameSceneDelegate = self
         skView.presentScene(gameScene)
     }
     
-    private func createGameScene(groupNum: Int, ringNum: Int) -> GameScene? {
+    private func createGameScene(wedges: Int, rings: Int) -> GameScene? {
         
-        let gameBoard = createGameBoard(groupNum: groupNum, ringNum: ringNum)
+        let gameBoard = createGameBoard(wedges: wedges, rings: rings)
         
         if let playerOne = playerOne, let playerTwo = playerTwo {
             return GameScene(size: view.frame.size, gameBoard: gameBoard, playerOne: playerOne, playerTwo: playerTwo)
@@ -38,8 +38,13 @@ class GameSceneViewController: UIViewController {
         }
     }
     
-    private func createGameBoard(groupNum: Int, ringNum: Int) -> GameBoard {
-        return GameBoard(container: view.frame, groups: groupNum, rings: ringNum)
+    private func createGameBoard(wedges: Int, rings: Int) -> GameBoard {
+        
+        var gameCreator = GameSpaceCreator(wedges: wedges, rings: rings, container: view.frame)
+        
+        let game = gameCreator.generateGame(in: view as! SKView)
+        
+        return GameBoard(radius: gameCreator.radius, spaces: game.spaces, wedgeRanges: game.wedgeRanges, ringRanges: game.ringRanges)
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {

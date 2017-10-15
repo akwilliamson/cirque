@@ -12,29 +12,29 @@ import SpriteKit
 class GamePlayer {
     
     let player: Player
-    let groupColorOne: GroupColor
-    let groupColorTwo: GroupColor
+    let wedgeColorOne: WedgeColor
+    let wedgeColorTwo: WedgeColor
     
-    var groupColorOneClosed: Bool = false
-    var groupColorTwoClosed: Bool = false
+    var wedgeColorOneClosed: Bool = false
+    var wedgeColorTwoClosed: Bool = false
     
     var playerLost: Bool {
-        return groupColorOneClosed && groupColorTwoClosed
+        return wedgeColorOneClosed && wedgeColorTwoClosed
     }
     
-    init(_ player: Player, groupColorOne: GroupColor, groupColorTwo: GroupColor) {
+    init(_ player: Player, wedgeColorOne: WedgeColor, wedgeColorTwo: WedgeColor) {
         self.player         = player
-        self.groupColorOne  = groupColorOne
-        self.groupColorTwo  = groupColorTwo
+        self.wedgeColorOne  = wedgeColorOne
+        self.wedgeColorTwo  = wedgeColorTwo
     }
     
-    func owns(_ closedColor: GroupColor?) -> Bool {
-        return groupColorOne == closedColor || groupColorTwo == closedColor
+    func owns(_ closedColor: WedgeColor?) -> Bool {
+        return wedgeColorOne == closedColor || wedgeColorTwo == closedColor
     }
     
-    func close(_ groupColor: GroupColor?, complete: (Bool) -> Void) {
-        if groupColor == groupColorOne { groupColorOneClosed = true }
-        if groupColor == groupColorTwo { groupColorTwoClosed = true }
+    func close(_ wedgeColor: WedgeColor?, complete: (Bool) -> Void) {
+        if wedgeColor == wedgeColorOne { wedgeColorOneClosed = true }
+        if wedgeColor == wedgeColorTwo { wedgeColorTwoClosed = true }
         complete(playerLost)
     }
 }

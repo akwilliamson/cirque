@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameSetupViewController: UIViewController {
+final class GameSetupViewController: UIViewController {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var showColorsButton: UIButton!
@@ -16,8 +16,8 @@ class GameSetupViewController: UIViewController {
     @IBOutlet weak var colorTwoSelectionView: UIView!
     @IBOutlet weak var continueButton: UIButton!
     
-    var playerOne: GamePlayer?
-    var playerTwo: GamePlayer?
+    var playerOne: Player?
+    var playerTwo: Player?
     
     var wedgeColors: [WedgeColor] = [.green, .yellow, .orange, .red, .pink, .purple, .blue, .brown]
     
@@ -25,7 +25,7 @@ class GameSetupViewController: UIViewController {
         return [showColorsButton]
     }
     
-    var currentPlayer: Player = .one {
+    var currentPlayer: PlayerNumber = .one {
         didSet {
             populateDescriptionLabelText(for: currentPlayer)
         }
@@ -43,8 +43,8 @@ class GameSetupViewController: UIViewController {
         [colorOneSelectionView, colorTwoSelectionView].forEach { $0?.isHidden = false }
         
         switch currentPlayer {
-        case .one: playerOne = GamePlayer(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
-        case .two: playerTwo = GamePlayer(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
+        case .one: playerOne = Player(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
+        case .two: playerTwo = Player(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
         }
         
         showColorsButton.isEnabled = false
@@ -67,13 +67,13 @@ class GameSetupViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let gameSceneVC = segue.destination as? GameSceneViewController {
+        if let gameSceneVC = segue.destination as? GameViewController {
             gameSceneVC.playerOne = playerOne
             gameSceneVC.playerTwo = playerTwo
         }
     }
     
-    private func populateDescriptionLabelText(for player: Player) {
-        descriptionLabel.text = "\(player.name): Click 'Show' to see your colors for this match."
+    private func populateDescriptionLabelText(for player: PlayerNumber) {
+        descriptionLabel.text = "\(player): Click 'Show' to see your colors for this match."
     }
 }

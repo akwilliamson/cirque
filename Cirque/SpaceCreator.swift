@@ -1,5 +1,5 @@
 //
-//  GameSpaceShaper.swift
+//  GameGenerator.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 6/3/17.
@@ -9,7 +9,7 @@
 import CoreGraphics
 import SpriteKit
 
-struct GameSpaceCreator {
+struct GameGenerator {
     
 // MARK: Constant
     
@@ -52,9 +52,9 @@ struct GameSpaceCreator {
         self.startRadius = container.radius(0.48)
     }
     
-    mutating func generateGame(in view: SKView) -> (spaces: [[GameSpace]], wedgeRanges: [Int: ClosedRange<CGFloat>], ringRanges: [Int: ClosedRange<CGFloat>]) {
+    mutating func generateGame(for view: SKView) -> (radius: CGFloat, spaces: [[Space]], wedgeRanges: [Int: ClosedRange<CGFloat>], ringRanges: [Int: ClosedRange<CGFloat>]) {
         
-        var spaces: [[GameSpace]] = [[],[],[],[],[],[],[],[]]
+        var spaces: [[Space]] = [[],[],[],[],[],[],[],[]]
         // The range of each angle within the game board devoted to each group
         var wedgeRanges = [Int: ClosedRange<CGFloat>]()
         // The range of each width within the game board devoted to each ring
@@ -66,7 +66,16 @@ struct GameSpaceCreator {
             for ringNum in 1...rings {
                 ringRanges[ringNum.index] = ringRanges[ringNum.index] ?? ringRange
                 
-                let space = createSpace(view: view, wedgeNum: wedgeNum, ringNum: ringNum)
+                let midAngle =  endAngle - (endAngle - startAngle)/2
+
+                let spaceWidth = startRadius - endRadius
+
+                let x = (startRadius - (spaceWidth/2)) * cos(midAngle) + view.center.x
+                let y = (startRadius - (spaceWidth/2)) * sin(midAngle) + view.center.y
+                
+                let point = CGPoint(x: x, y: y)
+
+                let space = createSpace(view: view, point: point, wedgeNum: wedgeNum, ringNum: ringNum)
                 
                 spaces[wedgeNum.index].append(space)
                 
@@ -76,10 +85,10 @@ struct GameSpaceCreator {
             startAngle = incrementStartAngleFor(wedgeNum.cg)
         }
         
-        return (spaces, wedgeRanges, ringRanges)
+        return (radius, spaces, wedgeRanges, ringRanges)
     }
     
-    private func createSpace(view: SKView, wedgeNum: Int, ringNum: Int) -> GameSpace {
+    private func createSpace(view: SKView, point: CGPoint, wedgeNum: Int, ringNum: Int) -> Space {
         
         let shapeNode = SKShapeNode(path: path)
         shapeNode.strokeColor = .black
@@ -88,7 +97,7 @@ struct GameSpaceCreator {
         
         let texture = view.texture(from: shapeNode)!
         
-        let gs = GameSpace(texture: texture, wedgeNum: wedgeNum, ringNum: ringNum)
+        let gs = Space(texture: texture, point: point, wedgeNum: wedgeNum, ringNum: ringNum)
 
         gs.position = shapeNode.frame.center
         

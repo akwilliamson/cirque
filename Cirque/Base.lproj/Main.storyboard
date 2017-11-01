@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="761" y="-1242"/>
         </scene>
-        <!--Game Scene View Controller-->
+        <!--Game View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="GameScene" id="BYZ-38-t0r" customClass="GameSceneViewController" customModule="Cirque" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameVC" id="BYZ-38-t0r" customClass="GameViewController" customModule="Cirque" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>

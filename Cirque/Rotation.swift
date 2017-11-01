@@ -6,8 +6,6 @@
 //  Copyright © 2017 Aaron Williamson. All rights reserved.
 //
 
-import Foundation
-
 enum Rotation {
     
     case clockwise

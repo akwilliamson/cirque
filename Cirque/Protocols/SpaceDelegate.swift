@@ -18,9 +18,9 @@
 
 protocol SpaceDelegate {
     
-    func open(_ space: Space?)
-    func highlight(_ space: Space?)
-    func select(_ space: Space?, complete: (Bool) -> Void)
+    func open(_ space: Space)
+    func highlight(_ space: Space)
+    func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void)
     func close(_ spaces: [Space])
-    func revive(_ space: Space?)
+    func revive(_ space: Space)
 }

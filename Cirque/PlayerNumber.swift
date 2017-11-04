@@ -6,8 +6,17 @@
 //  Copyright © 2017 Aaron Williamson. All rights reserved.
 //
 
+import SpriteKit
+
 enum PlayerNumber {
     
     case one
     case two
+    
+    var texture: SKTexture {
+        switch self {
+        case .one: return SKTexture(imageNamed: "black")
+        case .two: return SKTexture(imageNamed: "white")
+        }
+    }
 }

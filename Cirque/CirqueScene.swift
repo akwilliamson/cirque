@@ -36,17 +36,16 @@ final class CirqueScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        board = createBoard(sizedFor: view)
+        board = makeBoard(sizedFor: view)
         
         if let board = board {
             addChild(board)
         }
         
-        // TODO: Animate display of populating spaces within board
         board?.populateSpaces()
     }
     
-    private func createBoard(sizedFor view: SKView) -> Board {
+    private func makeBoard(sizedFor view: SKView) -> Board {
         
         var gameGenerator = GameGenerator(wedges: wedges, rings: rings, container: view.frame)
         let game = gameGenerator.generateGame(for: view)
@@ -57,12 +56,6 @@ final class CirqueScene: SKScene {
         let ringRanges  = game.ringRanges
         
         return Board(radius, spaces: spaces, wedgeRanges: wedgeRanges, ringRanges: ringRanges, spaceDelegate: self)
-    }
-    
-// MARK: Presses
-    
-    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        board?.pressesEnded(presses, with: event)
     }
     
 // MARK: Touches
@@ -83,6 +76,12 @@ final class CirqueScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOrigin = nil
     }
+    
+// MARK: Presses
+    
+    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        board?.handlePress()
+    }
 }
 
 extension CirqueScene: TouchMapping {
@@ -99,27 +98,29 @@ extension CirqueScene: TouchMapping {
 extension CirqueScene: SpaceDelegate {
     
     /** Open a `Space` **/
-    func open(_ gameSpace: Space?) {
-        gameSpace?.open()
+    func open(_ gameSpace: Space) {
+        gameSpace.open()
     }
     
     /** Highlight a `Space` **/
-    func highlight(_ gameSpace: Space?) {
-        gameSpace?.highlight()
+    func highlight(_ gameSpace: Space) {
+        gameSpace.highlight()
     }
     
     /** Select a `Space` **/
-    func select(_ gameSpace: Space?, complete: (Bool) -> Void) {
+    func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void) {
         
-        gameSpace?.select(for: currentPlayerNumber) { (selected) in
+        gameSpace.select(for: currentPlayerNumber) { selected in
+
             if selected {
-                playerChip.position = gameSpace?.point ?? .zero
-                playerChip.zPosition = 200
-                addChild(playerChip)
-                
+                let chip = PlayerChip(texture: currentPlayerNumber.texture, wedgeNum: gameSpace.wedgeNum, ringNum: gameSpace.ringNum)
+                chip.position = gameSpace.point
+                chip.zPosition = 200 // TODO: Add logic to clean this arbitrary value up
                 swapPlayers()
+                complete(selected, chip)
+            } else {
+                complete(selected, nil)
             }
-            complete(selected)
         }
     }
     
@@ -143,8 +144,8 @@ extension CirqueScene: SpaceDelegate {
     }
     
     /** Revive a clockwise or counter-clockwise `Space` **/
-    func revive(_ gameSpace: Space?) {
-        gameSpace?.revive() { revived in
+    func revive(_ gameSpace: Space) {
+        gameSpace.revive() { revived in
             if revived {
                 
                 // if revived, remove player chip with wedge/ring num
@@ -153,6 +154,6 @@ extension CirqueScene: SpaceDelegate {
     }
     
     private func swapPlayers() {
-        currentPlayer = currentPlayer == .one ? .two : .one
+        currentPlayerNumber = currentPlayerNumber == .one ? .two : .one
     }
 }

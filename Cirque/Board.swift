@@ -15,6 +15,7 @@ final class Board: SKNode {
     
     let radius: CGFloat              // Percent of superview's smallest side for calculating display size
     var wedgeSpaces: [[Space]]       // Contains all spaces within the game, grouped by wedge in 2D array
+    var playerChips: [PlayerChip]    // Contains all the player chips that have been placed on the game board
     var wedgeRanges: RangeDict       // The range of each angle within the game board devoted to each group
     var ringRanges: RangeDict        // The range of each width within the game board devoted to each ring
     var spaceDelegate: SpaceDelegate // Sets the state of spaces within the board during user interaction
@@ -31,11 +32,8 @@ final class Board: SKNode {
         self.wedgeRanges   = wedgeRanges
         self.ringRanges    = ringRanges
         self.spaceDelegate = spaceDelegate
+        self.playerChips   = []
         super.init()
-    }
-    
-    override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        selectGameSpace()
     }
     
     public func populateSpaces() {
@@ -48,16 +46,32 @@ final class Board: SKNode {
     
     /** Highlight a new `Space`, Open the old `Space` **/
     public func handleTouch(at angle: CGFloat, and distance: CGFloat) {
+        guard let gameSpace = focusedGameSpace else { return }
         
-        let groupNum = wedgeRanges.values.first { $0.contains(angle) }
-        let ringNum  =  ringRanges.values.first { $0.contains(radius * distance) }
+        let wedge = wedgeRanges.values.first { $0.contains(angle) }
+        let ring  =  ringRanges.values.first { $0.contains(radius * distance) }
         
-        guard let group = groupNum, let ring = ringNum else { return }
+        guard let wedgeNum = wedge, let ringNum = ring else { return }
         
-        if let wedgeIndex = wedgeRanges.keys(for: group).first, let ringIndex = ringRanges.keys(for: ring).first {
-            spaceDelegate.open(focusedGameSpace)
+        if let wedgeIndex = wedgeRanges.keys(for: wedgeNum).first, let ringIndex = ringRanges.keys(for: ringNum).first {
+            spaceDelegate.open(gameSpace)
             focusedGameSpace = wedgeSpaces[wedgeIndex][ringIndex]
-            spaceDelegate.highlight(focusedGameSpace)
+            spaceDelegate.highlight(gameSpace)
+        }
+    }
+    
+    public func handlePress() {
+        guard let gameSpace = focusedGameSpace else { return }
+        
+        spaceDelegate.select(gameSpace) { (selected, chip) in
+            
+            if selected {
+                if let chip = chip { addChild(chip) }
+                
+                checkWedgeIsAlive(for: gameSpace.wedgeNum)
+                checkSqueeze(rotating: .clockwise, for: gameSpace)
+                checkSqueeze(rotating: .counterClockwise, for: gameSpace)
+            }
         }
     }
     
@@ -69,19 +83,6 @@ final class Board: SKNode {
     /** Highlight a `Space` **/
     private func highlightSpace() {
         // TODO: Call from somewhere within `handleTouch`
-    }
-    
-    /** Select a `Space` **/
-    private func selectGameSpace() {
-        guard let gameSpace = focusedGameSpace else { return }
-        
-        spaceDelegate.select(focusedGameSpace) { selected in
-            if selected {
-                checkWedgeIsAlive(for: gameSpace.wedgeNum)
-                checkSqueeze(rotating: .clockwise, for: gameSpace)
-                checkSqueeze(rotating: .counterClockwise, for: gameSpace)
-            }
-        }
     }
     
     /** Close all `Space`s within a wedge **/

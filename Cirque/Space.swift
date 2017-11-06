@@ -78,9 +78,9 @@ final class Space: SKSpriteNode {
         }
     }
     
-    func select(for playerNumber: PlayerNumber, complete: (Bool) -> Void) {
+    func select(for player: PlayerNumber, complete: (Bool) -> Void) {
         if isSelectable {
-            self.owner = playerNumber
+            self.owner = player
             select()
         }
         complete(state == .selected)

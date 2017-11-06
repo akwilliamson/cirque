@@ -12,30 +12,33 @@ import SpriteKit
 final class Player {
     
     let playerNumber: PlayerNumber
-    let wedgeColorOne: WedgeColor
-    let wedgeColorTwo: WedgeColor
+    var playerColors: [WedgeColor]
+    var aliveColors: [Bool]
     
-    var wedgeColorOneClosed: Bool = false
-    var wedgeColorTwoClosed: Bool = false
-    
-    var playerLost: Bool {
-        return wedgeColorOneClosed && wedgeColorTwoClosed
+    var texture: SKTexture {
+        switch playerNumber {
+        case .one: return SKTexture(imageNamed: "black")
+        case .two: return SKTexture(imageNamed: "white")
+        }
     }
     
-    init(_ playerNumber: PlayerNumber, wedgeColorOne: WedgeColor, wedgeColorTwo: WedgeColor) {
-        self.playerNumber   = playerNumber
-        self.wedgeColorOne  = wedgeColorOne
-        self.wedgeColorTwo  = wedgeColorTwo
+    var didLose: Bool {
+        return aliveColors.contains(true) == false
     }
     
-    func owns(_ closedColor: WedgeColor?) -> Bool {
-        return wedgeColorOne == closedColor || wedgeColorTwo == closedColor
+    init(_ playerNumber: PlayerNumber, playerColors: [WedgeColor]) {
+        self.playerNumber = playerNumber
+        self.playerColors = playerColors
+        self.aliveColors  = playerColors.map { _ in true }
     }
     
-    func close(_ wedgeColor: WedgeColor?, complete: (Bool) -> Void) {
-        if wedgeColor == wedgeColorOne { wedgeColorOneClosed = true }
-        if wedgeColor == wedgeColorTwo { wedgeColorTwoClosed = true }
-        complete(playerLost)
+    func close(_ wedgeColor: WedgeColor, complete: (Bool) -> Void) {
+        if playerColors.contains(wedgeColor) {
+            if let i = playerColors.index(of: wedgeColor) {
+                aliveColors[i] = false
+            }
+        }
+        complete(didLose)
     }
 }
 

@@ -10,14 +10,9 @@ import SpriteKit
 
 final class CirqueScene: SKScene {
     
-    private var wedges: Int
-    private var rings: Int
-    fileprivate var board: Board?
-    fileprivate var playerOne: Player
-    fileprivate var playerTwo: Player
-    fileprivate var cirqueSceneDelegate: CirqueSceneDelegate
-    
-    fileprivate var currentPlayerNumber: PlayerNumber = .one
+    var board: Board
+    var gameManager: GameManager
+    var sceneDelegate: SceneDelegate
     
     private var touchOrigin: CGPoint?
     
@@ -25,37 +20,25 @@ final class CirqueScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(_ size: CGSize, wedges: Int, rings: Int, playerOne: Player, playerTwo: Player, cirqueSceneDelegate: CirqueSceneDelegate) {
-        self.wedges              = wedges
-        self.rings               = rings
-        self.playerOne           = playerOne
-        self.playerTwo           = playerTwo
-        self.cirqueSceneDelegate = cirqueSceneDelegate
+    init(_ size: CGSize, wedges: Int, rings: Int, sceneDelegate: SceneDelegate) {
+        self.board = makeBoard(sizedFor: view!, wedges: wedges, rings: rings)
+        
+        self.gameManager = GameManager(board: <#T##Board#>, playerOne: <#T##Player#>, playerTwo: <#T##Player#>, currentPlayer: <#T##PlayerNumber#>)
+        self.sceneDelegate = sceneDelegate
         super.init(size: size)
     }
     
     override func didMove(to view: SKView) {
-        
-        board = makeBoard(sizedFor: view)
-        
-        if let board = board {
-            addChild(board)
-        }
-        
-        board?.populateSpaces()
+        addChild(board)
+        board.populateSpaces() // TODO: Animate
     }
     
-    private func makeBoard(sizedFor view: SKView) -> Board {
+    private func makeBoard(sizedFor view: SKView, wedges: Int, rings: Int) -> Board {
         
-        var gameGenerator = GameGenerator(wedges: wedges, rings: rings, container: view.frame)
-        let game = gameGenerator.generateGame(for: view)
+        var boardGenerator = GameGenerator(wedges: wedges, rings: rings, container: view.frame)
+        let board = boardGenerator.generateBoard(for: view)
         
-        let radius      = game.radius
-        let spaces      = game.spaces
-        let wedgeRanges = game.wedgeRanges
-        let ringRanges  = game.ringRanges
-        
-        return Board(radius, spaces: spaces, wedgeRanges: wedgeRanges, ringRanges: ringRanges, spaceDelegate: self)
+        return Board(board.radius, spaces: board.spaces, wedgeRanges: board.wedgeRanges, ringRanges: board.ringRanges)
     }
     
 // MARK: Touches
@@ -70,7 +53,7 @@ final class CirqueScene: SKScene {
         let angle    = getAngle(touchOrigin, and: touchCurrent)
         let distance = getDistance(touchOrigin, and: touchCurrent)
         
-        board?.handleTouch(at: angle, and: distance)
+        board.handleTouch(at: angle, and: distance)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -80,7 +63,7 @@ final class CirqueScene: SKScene {
 // MARK: Presses
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        board?.handlePress()
+        board.handlePress()
     }
 }
 
@@ -96,16 +79,6 @@ extension CirqueScene: TouchMapping {
 }
 
 extension CirqueScene: SpaceDelegate {
-    
-    /** Open a `Space` **/
-    func open(_ gameSpace: Space) {
-        gameSpace.open()
-    }
-    
-    /** Highlight a `Space` **/
-    func highlight(_ gameSpace: Space) {
-        gameSpace.highlight()
-    }
     
     /** Select a `Space` **/
     func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void) {
@@ -153,7 +126,7 @@ extension CirqueScene: SpaceDelegate {
         }
     }
     
-    private func swapPlayers() {
+    func swapPlayers() {
         currentPlayerNumber = currentPlayerNumber == .one ? .two : .one
     }
 }

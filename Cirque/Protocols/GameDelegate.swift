@@ -1,5 +1,5 @@
 //
-//  SpaceDelegate.swift
+//  GameDelegate.swift
 //  Cirque
 //
 //  Created by Aaron Williamson on 7/13/17.
@@ -16,10 +16,10 @@
  
 **/
 
-protocol SpaceDelegate {
+protocol GameDelegate {
     
-    func open(_ space: Space)
-    func highlight(_ space: Space)
+    func getCurrentPlayer(_ complete: (PlayerNumber) -> Void)
+    
     func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void)
     func close(_ spaces: [Space])
     func revive(_ space: Space)

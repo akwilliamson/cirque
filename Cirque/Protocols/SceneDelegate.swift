@@ -15,7 +15,7 @@
  
 **/
 
-protocol CirqueSceneDelegate: class {
+protocol SceneDelegate: class {
     
     func gameEnded(winner: PlayerNumber)
 }

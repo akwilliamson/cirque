@@ -18,8 +18,8 @@ final class Board: SKNode {
     var playerChips: [PlayerChip]    // Contains all the player chips that have been placed on the game board
     var wedgeRanges: RangeDict       // The range of each angle within the game board devoted to each group
     var ringRanges: RangeDict        // The range of each width within the game board devoted to each ring
-    
     var focusedGameSpace: Space?
+    var gameDelegate: GameDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -61,14 +61,7 @@ final class Board: SKNode {
     public func handlePress() {
         guard let gameSpace = focusedGameSpace else { return }
         
-        gameDelegate.getCurrentPlayer { currentPlayer in
-            let chip = PlayerChip(texture: currentPlayer.texture, wedgeNum: gameSpace.wedgeNum, ringNum: gameSpace.ringNum)
-            chip.position = gameSpace.point
-            chip.zPosition = 200
-            addChild(chip)
-        }
-        
-        gameDelegate.select(gameSpace) { (selected, chip) in
+        gameDelegate?.select(gameSpace) { (selected, chip) in
             
             if selected {
                 if let chip = chip { addChild(chip) }
@@ -86,7 +79,7 @@ final class Board: SKNode {
         let allSpaceStatesInWedge = allSpacesInWedge.map { $0.state }
         
         if allSpaceStatesInWedge.contains(.open) == false {
-            gameDelegate.close(allSpacesInWedge)
+            gameDelegate?.close(allSpacesInWedge)
         }
     }
     
@@ -112,7 +105,7 @@ final class Board: SKNode {
             
             // Space being squeezed belongs to opponent, reopen
             if squeezedSpace.owner != space.owner && squeezedSpace.owner != nil {
-                gameDelegate.revive(squeezedSpace)
+                gameDelegate?.revive(squeezedSpace)
             }
         }
     }

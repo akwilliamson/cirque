@@ -21,9 +21,7 @@ final class CirqueScene: SKScene {
     }
 
     init(_ size: CGSize, wedges: Int, rings: Int, sceneDelegate: SceneDelegate) {
-        self.board = makeBoard(sizedFor: view!, wedges: wedges, rings: rings)
         
-        self.gameManager = GameManager(board: <#T##Board#>, playerOne: <#T##Player#>, playerTwo: <#T##Player#>, currentPlayer: <#T##PlayerNumber#>)
         self.sceneDelegate = sceneDelegate
         super.init(size: size)
     }
@@ -31,14 +29,6 @@ final class CirqueScene: SKScene {
     override func didMove(to view: SKView) {
         addChild(board)
         board.populateSpaces() // TODO: Animate
-    }
-    
-    private func makeBoard(sizedFor view: SKView, wedges: Int, rings: Int) -> Board {
-        
-        var boardGenerator = GameGenerator(wedges: wedges, rings: rings, container: view.frame)
-        let board = boardGenerator.generateBoard(for: view)
-        
-        return Board(board.radius, spaces: board.spaces, wedgeRanges: board.wedgeRanges, ringRanges: board.ringRanges)
     }
     
 // MARK: Touches

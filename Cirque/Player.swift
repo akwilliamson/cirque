@@ -11,30 +11,23 @@ import SpriteKit
 
 final class Player {
     
-    let playerNumber: PlayerNumber
-    var playerColors: [WedgeColor]
+    let number: PlayerNumber
+    var colors: [WedgeColor]
     var aliveColors: [Bool]
     
-    var texture: SKTexture {
-        switch playerNumber {
-        case .one: return SKTexture(imageNamed: "black")
-        case .two: return SKTexture(imageNamed: "white")
-        }
-    }
-    
     var didLose: Bool {
-        return aliveColors.contains(true) == false
+        return !aliveColors.contains(true)
     }
     
-    init(_ playerNumber: PlayerNumber, playerColors: [WedgeColor]) {
-        self.playerNumber = playerNumber
-        self.playerColors = playerColors
-        self.aliveColors  = playerColors.map { _ in true }
+    init(_ number: PlayerNumber, colors: [WedgeColor]) {
+        self.number = number
+        self.colors = colors
+        self.aliveColors = colors.map { _ in true }
     }
     
     func close(_ wedgeColor: WedgeColor, complete: (Bool) -> Void) {
-        if playerColors.contains(wedgeColor) {
-            if let i = playerColors.index(of: wedgeColor) {
+        if colors.contains(wedgeColor) {
+            if let i = colors.index(of: wedgeColor) {
                 aliveColors[i] = false
             }
         }
@@ -45,7 +38,7 @@ final class Player {
 extension Player: Equatable {
     
     static func ==(lhs: Player, rhs: Player) -> Bool {
-        return lhs.playerNumber == rhs.playerNumber
+        return lhs.number == rhs.number
     }
 }
 

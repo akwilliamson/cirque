@@ -11,8 +11,6 @@ import SpriteKit
 final class CirqueScene: SKScene {
     
     var board: Board
-    var gameManager: GameManager
-    var sceneDelegate: SceneDelegate
     
     private var touchOrigin: CGPoint?
     
@@ -20,9 +18,8 @@ final class CirqueScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(_ size: CGSize, wedges: Int, rings: Int, sceneDelegate: SceneDelegate) {
-        
-        self.sceneDelegate = sceneDelegate
+    init(_ size: CGSize, board: Board) {
+        self.board = board
         super.init(size: size)
     }
     
@@ -65,58 +62,5 @@ extension CirqueScene: TouchMapping {
     
     fileprivate func getDistance(_ touchOrigin: CGPoint, and touchCurrent: CGPoint) -> CGFloat {
         return distanceBetween(touchOrigin, and: touchCurrent)
-    }
-}
-
-extension CirqueScene: SpaceDelegate {
-    
-    /** Select a `Space` **/
-    func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void) {
-        
-        gameSpace.select(for: currentPlayerNumber) { selected in
-
-            if selected {
-                let chip = PlayerChip(texture: currentPlayerNumber.texture, wedgeNum: gameSpace.wedgeNum, ringNum: gameSpace.ringNum)
-                chip.position = gameSpace.point
-                chip.zPosition = 200 // TODO: Add logic to clean this arbitrary value up
-                swapPlayers()
-                complete(selected, chip)
-            } else {
-                complete(selected, nil)
-            }
-        }
-    }
-    
-    /** Close all `Space`s within a wedge **/
-    func close(_ gameSpaces: [Space]) {
-        
-        gameSpaces.forEach { $0.close() }
-        
-        let wedgeColor = gameSpaces.first?.wedgeColor
-        
-        if playerOne.owns(wedgeColor) {
-            playerOne.close(wedgeColor) { playerOneLost in
-                if playerOneLost { cirqueSceneDelegate.gameEnded(winner: .two) }
-            }
-        }
-        if playerTwo.owns(wedgeColor) {
-            playerTwo.close(wedgeColor) { playerTwoLost in
-                if playerTwoLost { cirqueSceneDelegate.gameEnded(winner: .one) }
-            }
-        }
-    }
-    
-    /** Revive a clockwise or counter-clockwise `Space` **/
-    func revive(_ gameSpace: Space) {
-        gameSpace.revive() { revived in
-            if revived {
-                
-                // if revived, remove player chip with wedge/ring num
-            }
-        }
-    }
-    
-    func swapPlayers() {
-        currentPlayerNumber = currentPlayerNumber == .one ? .two : .one
     }
 }

@@ -20,7 +20,9 @@ protocol GameDelegate {
     
     func getCurrentPlayer(_ complete: (PlayerNumber) -> Void)
     
-    func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void)
-    func close(_ spaces: [Space])
-    func revive(_ space: Space)
+    func open(_ gameSpace: Space)
+    func highlight(_ gameSpace: Space)
+    mutating func select(_ gameSpace: Space, complete: (Bool) -> Void)
+    func close(_ gameSpaces: [Space])
+    func revive(_ gameSpace: Space)
 }

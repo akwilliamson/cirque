@@ -13,59 +13,52 @@ final class Board: SKNode {
     
     typealias RangeDict = [Int: ClosedRange<CGFloat>]
     
-    let radius: CGFloat              // Percent of superview's smallest side for calculating display size
-    var wedgeSpaces: [[Space]]       // Contains all spaces within the game, grouped by wedge in 2D array
-    var playerChips: [PlayerChip]    // Contains all the player chips that have been placed on the game board
-    var wedgeRanges: RangeDict       // The range of each angle within the game board devoted to each group
-    var ringRanges: RangeDict        // The range of each width within the game board devoted to each ring
-    var focusedGameSpace: Space?
-    var gameDelegate: GameDelegate?
+    let radius: CGFloat            // Percent of superview's smallest side for calculating display size
+    var gameSpaces: [[Space]]      // Contains all spaces within the game, grouped by wedge in 2D array
+    var wedgeRanges: RangeDict     // The range of each angle within the game board devoted to each group
+    var ringRanges: RangeDict      // The range of each width within the game board devoted to each ring
+    var gameDelegate: GameDelegate // Delegate for passing game space actions to for handling
+    var focusedGameSpace: Space?   // The currently highlighted game space
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(_ radius: CGFloat, spaces: [[Space]], wedgeRanges: RangeDict, ringRanges: RangeDict) {
-        self.radius        = radius
-        self.wedgeSpaces   = spaces
-        self.wedgeRanges   = wedgeRanges
-        self.ringRanges    = ringRanges
-        self.playerChips   = []
+    init(_ radius: CGFloat, spaces: [[Space]], wedgeRanges: RangeDict, ringRanges: RangeDict, gameDelegate: GameDelegate) {
+        self.radius       = radius
+        self.gameSpaces   = spaces
+        self.wedgeRanges  = wedgeRanges
+        self.ringRanges   = ringRanges
+        self.gameDelegate = gameDelegate
         super.init()
     }
     
     public func populateSpaces() {
-        wedgeSpaces.forEach { wedge in
+        gameSpaces.forEach { wedge in
             wedge.forEach { space in
                 addChild(space)
             }
         }
     }
     
-    /** Highlight a new `Space`, Open the old `Space` **/
     public func handleTouch(at angle: CGFloat, and distance: CGFloat) {
         guard let gameSpace = focusedGameSpace else { return }
         
-        let wedge = wedgeRanges.values.first { $0.contains(angle) }
-        let ring  =  ringRanges.values.first { $0.contains(radius * distance) }
+        guard let wedge = (wedgeRanges.values.first { $0.contains(angle) }) else { return }
+        guard let ring  =  (ringRanges.values.first { $0.contains(radius * distance) }) else { return }
         
-        guard let wedgeNum = wedge, let ringNum = ring else { return }
-        
-        if let wedgeIndex = wedgeRanges.keys(for: wedgeNum).first, let ringIndex = ringRanges.keys(for: ringNum).first {
-            gameSpace.open()
-            focusedGameSpace = wedgeSpaces[wedgeIndex][ringIndex]
-            gameSpace.highlight()
+        if let wedgeIndex = wedgeRanges.keys(for: wedge).first, let ringIndex = ringRanges.keys(for: ring).first {
+            gameDelegate.open(gameSpace)
+            focusedGameSpace = gameSpaces[wedgeIndex][ringIndex]
+            gameDelegate.highlight(gameSpace)
         }
     }
     
     public func handlePress() {
         guard let gameSpace = focusedGameSpace else { return }
         
-        gameDelegate?.select(gameSpace) { (selected, chip) in
-            
+        gameDelegate.select(gameSpace) { selected in
             if selected {
-                if let chip = chip { addChild(chip) }
-                
                 checkWedgeIsAlive(for: gameSpace.wedgeNum)
                 checkSqueeze(rotating: .clockwise, for: gameSpace)
                 checkSqueeze(rotating: .counterClockwise, for: gameSpace)
@@ -73,39 +66,29 @@ final class Board: SKNode {
         }
     }
     
-    /** Close all `Space`s within a wedge **/
     private func checkWedgeIsAlive(for wedgeNum: Int) {
-        let allSpacesInWedge = wedgeSpaces[wedgeNum.index]
+        let allSpacesInWedge = gameSpaces[wedgeNum.index]
         let allSpaceStatesInWedge = allSpacesInWedge.map { $0.state }
         
-        if allSpaceStatesInWedge.contains(.open) == false {
-            gameDelegate?.close(allSpacesInWedge)
+        if !allSpaceStatesInWedge.contains(.open) {
+            gameDelegate.close(allSpacesInWedge)
         }
     }
     
-    /** Revive a clockwise or counter-clockwise `Space` **/
     private func checkSqueeze(rotating: Rotation, for space: Space) {
         
-        let surroundingSpace: Space
-        
-        switch rotating {
-        case .clockwise:        surroundingSpace = wedgeSpaces[wrapping: space.wedgeNum.doubleIncremented][wrapping: space.ringNum.index]
-        case .counterClockwise: surroundingSpace = wedgeSpaces[wrapping: space.wedgeNum.doubleDecremented][wrapping: space.ringNum.index]
-        }
+        let surroundingWedgeIndex = rotating == .clockwise ? space.wedgeNum.doubleIncremented : space.wedgeNum.doubleDecremented
+        let surroundingSpace      = gameSpaces[wrapping: surroundingWedgeIndex][wrapping: space.ringNum.index]
         
         // Player owns surrounding spaces, squeeze in effect
         if surroundingSpace.owner == space.owner {
             
-            let squeezedSpace: Space
-            
-            switch rotating {
-            case .clockwise:        squeezedSpace = wedgeSpaces[wrapping: space.wedgeNum.incremented][wrapping: space.ringNum.index]
-            case .counterClockwise: squeezedSpace = wedgeSpaces[wrapping: space.wedgeNum.decremented][wrapping: space.ringNum.index]
-            }
+            let sqeezedWedgeIndex = rotating == .clockwise ? space.wedgeNum.incremented : space.wedgeNum.decremented
+            let squeezedSpace     = gameSpaces[wrapping: sqeezedWedgeIndex][wrapping: space.ringNum.index]
             
             // Space being squeezed belongs to opponent, reopen
             if squeezedSpace.owner != space.owner && squeezedSpace.owner != nil {
-                gameDelegate?.revive(squeezedSpace)
+                gameDelegate.revive(squeezedSpace)
             }
         }
     }

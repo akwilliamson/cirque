@@ -11,16 +11,11 @@ import SpriteKit
 
 final class PlayerChip: SKSpriteNode {
     
-    var wedgeNum: Int = 0
-    var ringNum: Int  = 0
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(texture: SKTexture, size: CGSize = CGSize(width: 50, height: 50), wedgeNum: Int, ringNum: Int) {
+    init(texture: SKTexture?, size: CGSize = CGSize(width: 50, height: 50)) {
         super.init(texture: texture, color: .blue, size: size)
-        self.wedgeNum = wedgeNum
-        self.ringNum = ringNum
     }
 }

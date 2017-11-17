@@ -52,7 +52,7 @@ struct GameGenerator {
         self.startRadius = container.radius(0.48)
     }
     
-    mutating func generateBoard(for view: SKView) -> (radius: CGFloat, spaces: [[Space]], wedgeRanges: [Int: ClosedRange<CGFloat>], ringRanges: [Int: ClosedRange<CGFloat>]) {
+    mutating func generateBoard(for view: SKView) -> Board {
         
         var spaces: [[Space]] = [[],[],[],[],[],[],[],[]]
         // The range of each angle within the game board devoted to each group
@@ -85,7 +85,7 @@ struct GameGenerator {
             startAngle = incrementStartAngleFor(wedgeNum.cg)
         }
         
-        return (radius, spaces, wedgeRanges, ringRanges)
+        return Board(radius, spaces: spaces, wedgeRanges: wedgeRanges, ringRanges: ringRanges)
     }
     
     private func createSpace(view: SKView, point: CGPoint, wedgeNum: Int, ringNum: Int) -> Space {

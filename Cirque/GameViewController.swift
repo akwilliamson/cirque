@@ -13,50 +13,42 @@ final class GameViewController: UIViewController {
     
     @IBOutlet weak var winnerLabel: UILabel!
     
+    lazy var skView: SKView = { return (self.view as! SKView) }()
+    
     var playerOne: Player?
     var playerTwo: Player?
-    var cirqueScene: CirqueScene?
-    var gameBoard: Board?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let skView = view as? SKView else { return }
-        skView.ignoresSiblingOrder = true
-        
-        cirqueScene = makeCirqueScene()
-        gameBoard = makeBoard(sizedFor: (view as! SKView), wedges: 8, rings: 5)
-        let gameManager = GameManager(board: gameBoard, playerOne: playerOne!, playerTwo: playerTwo!)
 
-        skView.presentScene(cirqueScene)
+        skView.ignoresSiblingOrder = true
+
+        skView.presentScene(makeCirqueScene())
     }
     
     override func pressesEnded(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-        (view as? SKView)?.scene?.pressesEnded(presses, with: event)
+        skView.scene?.pressesEnded(presses, with: event)
     }
     
     private func makeCirqueScene() -> CirqueScene? {
-        
         guard let playerOne = playerOne, let playerTwo = playerTwo else { return nil }
         
-        let size  = view.frame.size
+        let gameManager = GameManager(playerOne: playerOne, playerTwo: playerTwo, sceneDelegate: self)
+        let gameBoard = makeGameBoard(sizedFor: skView, wedges: 8, rings: 5, gameDelegate: gameManager)
         
-        let board = makeBoard(sizedFor: (view as! SKView), wedges: wedges, rings: rings)
-        
-        let gameManager = GameManager(board: board, playerOne: playerOne!, playerTwo: playerTwo!)
-        
-        return CirqueScene(size, wedges: wedges, rings: rings, playerOne: playerOne, playerTwo: playerTwo, cirqueSceneDelegate: self)
+        return CirqueScene(view.frame.size, board: gameBoard)
     }
     
-    private func makeBoard(sizedFor view: SKView, wedges: Int, rings: Int) -> Board {
+    private func makeGameBoard(sizedFor view: SKView, wedges: Int, rings: Int, gameDelegate: GameDelegate) -> Board {
         
         var gameGenerator = GameGenerator(wedges: wedges, rings: rings, container: view.frame)
-        let board = gameGenerator.generateBoard(for: view)
+        let gameBoard = gameGenerator.generateBoard(for: view)
         
-        return Board(board.radius, spaces: board.spaces, wedgeRanges: board.wedgeRanges, ringRanges: board.ringRanges)
+        return gameBoard
     }
 }
 
-extension GameViewController: CirqueSceneDelegate {
+extension GameViewController: SceneDelegate {
     
     func gameEnded(winner: PlayerNumber) {
         print("the winner is...\(winner)")

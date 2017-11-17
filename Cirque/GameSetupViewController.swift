@@ -43,8 +43,8 @@ final class GameSetupViewController: UIViewController {
         [colorOneSelectionView, colorTwoSelectionView].forEach { $0?.isHidden = false }
         
         switch currentPlayer {
-        case .one: playerOne = Player(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
-        case .two: playerTwo = Player(currentPlayer, wedgeColorOne: wedgeColorOne, wedgeColorTwo: wedgeColorTwo)
+        case .one: playerOne = Player(currentPlayer, colors: [wedgeColorOne, wedgeColorTwo])
+        case .two: playerTwo = Player(currentPlayer, colors: [wedgeColorOne, wedgeColorTwo])
         }
         
         showColorsButton.isEnabled = false

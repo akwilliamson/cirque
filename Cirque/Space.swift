@@ -45,23 +45,20 @@ final class Space: SKSpriteNode {
     
     private func colorForState() -> UIColor {
         switch state {
-        case .open:
-            colorBlendFactor = 0.0
+        case .open: colorBlendFactor = 0.0
             return wedgeColor.regularColor
-        case .highlighted:
-            colorBlendFactor = 1.0
+        case .highlighted: colorBlendFactor = 1.0
             return wedgeColor.highlightColor
-        case .selected:
-            colorBlendFactor = 0.0
+        case .selected: colorBlendFactor = 0.0
             return wedgeColor.regularColor
-        case .closed:
-            colorBlendFactor = 0.0
+        case .closed: colorBlendFactor = 0.0
             return wedgeColor.closedColor
         }
     }
     
     func open() {
         if isSelectable {
+            owner = nil
             state = .open
         }
     }
@@ -72,28 +69,32 @@ final class Space: SKSpriteNode {
         }
     }
     
-    func select() {
-        if isSelectable {
-            state = .selected
-        }
-    }
-    
     func select(for player: PlayerNumber, complete: (Bool) -> Void) {
         if isSelectable {
-            self.owner = player
-            select()
+            owner = player
+            addChip()
+            state = .selected
         }
         complete(state == .selected)
     }
     
-    func revive(complete: (Bool) -> Void) {
+    private func addChip() {
+        let chip = PlayerChip(texture: owner?.texture)
+        chip.position = point
+        chip.zPosition = 200
+        addChild(chip)
+    }
+    
+    func revive() {
         if isAlive {
+            owner = nil
             state = .open
         }
-        complete(state == .open)
     }
     
     func close() {
-        state = .closed
+        if isAlive {
+            state = .closed
+        }
     }
 }

@@ -10,22 +10,15 @@ import Foundation
 
 struct GameManager {
     
-    var board: Board
     var playerOne: Player
     var playerTwo: Player
-    var gameDelegate: GameDelegate
-    
     var currentPlayer: PlayerNumber = .one
+    var sceneDelegate: SceneDelegate
     
-    init(board: Board, playerOne: Player, playerTwo: Player, gameDelegate: GameDelegate) {
-        self.board        = board
-        self.playerOne    = playerOne
-        self.playerTwo    = playerTwo
-        self.gameDelegate = gameDelegate
-    }
-    
-    mutating func swapPlayers() {
-        currentPlayer.change()
+    init(playerOne: Player, playerTwo: Player, sceneDelegate: SceneDelegate) {
+        self.playerOne     = playerOne
+        self.playerTwo     = playerTwo
+        self.sceneDelegate = sceneDelegate
     }
 }
 
@@ -35,21 +28,28 @@ extension GameManager: GameDelegate {
         complete(currentPlayer)
     }
     
-    func select(_ gameSpace: Space, complete: (Bool, PlayerChip?) -> Void) {
-        
-        gameSpace.select(for: <#T##PlayerNumber#>, complete: <#T##(Bool) -> Void#>)
-        
-        let chip = PlayerChip(texture: currentPlayer.texture, wedgeNum: gameSpace.wedgeNum, ringNum: gameSpace.ringNum)
-        chip.position = gameSpace.point
-        chip.zPosition = 200
-        addChild(chip)
+    func open(_ gameSpace: Space) {
+        gameSpace.open()
+    }
+    
+    func highlight(_ gameSpace: Space) {
+        gameSpace.highlight()
+    }
+    
+    mutating func select(_ gameSpace: Space, complete: (Bool) -> Void) {
+        gameSpace.select(for: currentPlayer) { selected in
+            if selected {
+                currentPlayer.change()
+            }
+            complete(selected)
+        }
     }
     
     func close(_ spaces: [Space]) {
-        
+        spaces.forEach { $0.close() }
     }
     
     func revive(_ space: Space) {
-        
+        space.revive()
     }
 }
